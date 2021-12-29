@@ -8,15 +8,26 @@
     "deploy": "surge dist --domain https://ratchagarn-calories-intake.surge.sh"
   },
   "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@types/node": "^17.0.5",
+    "antd-mobile": "^5.0.0-rc.12",
+    "antd-mobile-icons": "^0.2.2",
     "husky": "^7.0.4",
     "lint-staged": "^12.1.4",
+    "numeral": "^2.0.6",
     "prettier": "^2.5.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "store": "^2.0.12",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/numeral": "^2.0.2",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
+    "@types/store": "^2.0.2",
+    "@types/uuid": "^8.3.3",
     "@vitejs/plugin-react": "^1.0.7",
     "eslint": "^8.0.0",
     "eslint-config-react-app": "^7.0.0",

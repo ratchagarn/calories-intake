@@ -1,7 +1,17 @@
 import type { FC } from 'react'
 
+import RootApp from '@/components/RootApp'
+
+import { DBProvider } from '@/hooks/useDB'
+
+import './App.css'
+
 const App: FC = () => {
-  return <h1>Calories Intake</h1>
+  return (
+    <DBProvider>
+      <RootApp />
+    </DBProvider>
+  )
 }
 
 export default App
