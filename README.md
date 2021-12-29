@@ -1,6 +1,6 @@
 # Calories Intake
 
-Web App for notes food that you eat everyday
+Web App for notes food that you eat everyday (powered by [Vite](https://vitejs.dev))
 
 ### Development
 
