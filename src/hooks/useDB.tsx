@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import store from 'store'
 
 const key = {
@@ -36,12 +36,10 @@ interface DBContextType {
 
 const DBContext = createContext<DBContextType>(null!)
 
+createDB()
+
 export function DBProvider({ children }: { children: ReactNode }) {
   const [foods, setFoods] = useState<Food[]>(store.get(key.foods))
-
-  useEffect(() => {
-    createDB()
-  }, [])
 
   const value = {
     foods,
