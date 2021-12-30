@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import { Popup, Form, Input, Stepper, Button } from 'antd-mobile'
+import { Popup, Form, Input, Stepper, Button, Dialog, Space } from 'antd-mobile'
 import styled from '@emotion/styled'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -10,6 +10,7 @@ interface FoodFormProps {
   visible?: boolean
   initialValues?: Food
   onFinish?: (values: Food) => void
+  onDelete?: (id: string) => void
   onClose?: VoidFunction
 }
 
@@ -17,6 +18,7 @@ const FoodForm: FC<FoodFormProps> = ({
   visible,
   initialValues,
   onFinish,
+  onDelete,
   onClose,
 }) => {
   const [form] = Form.useForm()
@@ -25,7 +27,19 @@ const FoodForm: FC<FoodFormProps> = ({
     form.resetFields()
     onFinish?.({
       ...values,
-      id: uuidv4(),
+      id: initialValues ? initialValues.id : uuidv4(),
+    })
+  }
+
+  const handleOnDelete = (id: string) => () => {
+    Dialog.confirm({
+      content: 'Do you want to delete this food?',
+      confirmText: 'DELETE',
+      cancelText: 'NO',
+      onConfirm() {
+        onDelete?.(id)
+        form.resetFields()
+      },
     })
   }
 
@@ -50,9 +64,20 @@ const FoodForm: FC<FoodFormProps> = ({
         initialValues={initialValues}
         onFinish={handleOnFinshed}
         footer={
-          <Button block type="submit" color="primary">
-            Save
-          </Button>
+          <Space direction="vertical" block>
+            <Button block type="submit" color="primary">
+              Save
+            </Button>
+            {initialValues && (
+              <Button
+                block
+                color="danger"
+                onClick={handleOnDelete(initialValues.id)}
+              >
+                Delete
+              </Button>
+            )}
+          </Space>
         }
       >
         <Form.Item name="name" label="Name" rules={[{ required: true }]}>

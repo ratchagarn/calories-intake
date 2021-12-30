@@ -28,6 +28,8 @@ export interface Food {
 interface DBContextType {
   foods: Food[]
   addFood: (food: Food) => void
+  updateFood: (newValue: Food) => void
+  deleteFood: (id: string) => void
   clearAllFoods: () => void
   getTotalCaloriesIntake: () => number
 }
@@ -44,13 +46,26 @@ export function DBProvider({ children }: { children: ReactNode }) {
   const value = {
     foods,
     addFood: (food: Food) => {
-      setFoods((prevFoods) => {
-        const newFoods = prevFoods.concat([food])
+      const newFoods = foods.concat([food])
 
-        store.set(key.foods, newFoods)
-
-        return newFoods
+      store.set(key.foods, newFoods)
+      setFoods(newFoods)
+    },
+    updateFood: (newValue: Food) => {
+      const updateFoods = foods.map((food) => {
+        return food.id === newValue.id ? newValue : food
       })
+
+      store.set(key.foods, updateFoods)
+      setFoods(updateFoods)
+    },
+    deleteFood: (id: string) => {
+      const updateFoods = foods.filter((food) => {
+        return food.id !== id
+      })
+
+      store.set(key.foods, updateFoods)
+      setFoods(updateFoods)
     },
     getTotalCaloriesIntake: () => {
       let result = 0
