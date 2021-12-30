@@ -18,17 +18,21 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
   const foodRows = foods.map((food) => {
     const { id, name, kcal, carb, pro, fat, multiple } = food
 
-    totalCarb += carb || 0
-    totalPro += pro || 0
-    totalFat += fat || 0
+    const rowCarb = NutrientValue(carb, multiple)
+    const rowPro = NutrientValue(pro, multiple)
+    const rowFat = NutrientValue(fat, multiple)
+
+    totalCarb += carb ? Number(rowCarb) : 0
+    totalPro += pro ? Number(rowPro) : 0
+    totalFat += fat ? Number(rowFat) : 0
 
     return (
       <tr key={id}>
-        <td>{name}</td>
+        <td onClick={() => alert(name)}>{name}</td>
         <td>{NutrientValue(kcal, multiple)}</td>
-        <td>{NutrientValue(carb, multiple)}</td>
-        <td>{NutrientValue(pro, multiple)}</td>
-        <td>{NutrientValue(fat, multiple)}</td>
+        <td>{rowCarb}</td>
+        <td>{rowPro}</td>
+        <td>{rowFat}</td>
         <td>{multiple}</td>
       </tr>
     )
