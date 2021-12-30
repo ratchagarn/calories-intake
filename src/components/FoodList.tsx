@@ -1,11 +1,10 @@
 import type { FC } from 'react'
 
 import styled from '@emotion/styled'
-import numeral from 'numeral'
+
+import { NutrientValue } from '@/helpers/utils'
 
 import type { Food } from 'hooks/useDB'
-
-const FORMAT = '0,0'
 
 interface FoodListProps {
   foods: Food[]
@@ -21,14 +20,16 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
     totalPro += food.pro
     totalFat += food.fat
 
+    const { multiple } = food
+
     return (
       <tr key={food.id}>
         <td>{food.name}</td>
-        <td>{numeral(food.kcal * food.multiple).format(FORMAT)}</td>
-        <td>{numeral(food.carb * food.multiple).format(FORMAT)}</td>
-        <td>{numeral(food.pro * food.multiple).format(FORMAT)}</td>
-        <td>{numeral(food.fat * food.multiple).format(FORMAT)}</td>
-        <td>{food.multiple}</td>
+        <td>{NutrientValue(food.kcal, multiple)}</td>
+        <td>{NutrientValue(food.carb, multiple)}</td>
+        <td>{NutrientValue(food.pro, multiple)}</td>
+        <td>{NutrientValue(food.fat, multiple)}</td>
+        <td>{multiple}</td>
       </tr>
     )
   })
