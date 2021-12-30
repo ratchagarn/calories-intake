@@ -1,6 +1,8 @@
 {
   "name": "calories-intake",
   "version": "1.0.0",
+  "author": "Ratchagarn Naewbuntad",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
