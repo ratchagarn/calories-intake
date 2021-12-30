@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from 'uuid'
 import type { Food } from '@/hooks/useDB'
 
 const ruleForNumber = [
-  { required: true },
   {
     pattern: /\d/,
     message: 'Should be number',
@@ -67,23 +66,23 @@ const FoodForm: FC<FoodFormProps> = ({
           <Input placeholder="Please add food name..." />
         </Form.Item>
 
-        <Form.Item name="kcal" label="KCAL" rules={ruleForNumber}>
+        <Form.Item name="kcal" label="KCAL" rules={[{ required: true }]}>
           <StyledStepper min={1} />
         </Form.Item>
 
-        <Form.Item name="carb" label="CARB" rules={ruleForNumber}>
+        <Form.Item name="carb" label="CARB">
           <StyledStepper min={1} />
         </Form.Item>
 
-        <Form.Item name="pro" label="PRO" rules={ruleForNumber}>
+        <Form.Item name="pro" label="PRO">
           <StyledStepper min={1} />
         </Form.Item>
 
-        <Form.Item name="fat" label="FAT" rules={ruleForNumber}>
+        <Form.Item name="fat" label="FAT">
           <StyledStepper min={1} />
         </Form.Item>
 
-        <Form.Item name="multiple" label="Mutiple" rules={ruleForNumber}>
+        <Form.Item name="multiple" label="Mutiple" rules={[{ required: true }]}>
           <StyledStepper min={1} />
         </Form.Item>
       </Form>

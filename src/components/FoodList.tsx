@@ -18,9 +18,9 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
   const foodRows = foods.map((food) => {
     const { id, name, kcal, carb, pro, fat, multiple } = food
 
-    totalCarb += carb
-    totalPro += pro
-    totalFat += fat
+    totalCarb += carb || 0
+    totalPro += pro || 0
+    totalFat += fat || 0
 
     return (
       <tr key={id}>
