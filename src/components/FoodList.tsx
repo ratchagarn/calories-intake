@@ -11,24 +11,24 @@ interface FoodListProps {
 }
 
 const FoodList: FC<FoodListProps> = ({ foods }) => {
-  let totalCrab = 0
+  let totalCarb = 0
   let totalPro = 0
   let totalFat = 0
 
   const foodRows = foods.map((food) => {
-    totalCrab += food.carb
-    totalPro += food.pro
-    totalFat += food.fat
+    const { id, name, kcal, carb, pro, fat, multiple } = food
 
-    const { multiple } = food
+    totalCarb += carb
+    totalPro += pro
+    totalFat += fat
 
     return (
-      <tr key={food.id}>
-        <td>{food.name}</td>
-        <td>{NutrientValue(food.kcal, multiple)}</td>
-        <td>{NutrientValue(food.carb, multiple)}</td>
-        <td>{NutrientValue(food.pro, multiple)}</td>
-        <td>{NutrientValue(food.fat, multiple)}</td>
+      <tr key={id}>
+        <td>{name}</td>
+        <td>{NutrientValue(kcal, multiple)}</td>
+        <td>{NutrientValue(carb, multiple)}</td>
+        <td>{NutrientValue(pro, multiple)}</td>
+        <td>{NutrientValue(fat, multiple)}</td>
         <td>{multiple}</td>
       </tr>
     )
@@ -40,10 +40,10 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
         <tr>
           <th>Name</th>
           <th>KCAL</th>
-          <th>CRAB</th>
+          <th>CARB</th>
           <th>PRO</th>
           <th>FAT</th>
-          <th>M</th>
+          <th>✕</th>
         </tr>
       </thead>
       <tbody>
@@ -51,7 +51,7 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
           <td>Nutrients</td>
           <td></td>
           <td>
-            <span>{totalCrab}</span>
+            <span>{totalCarb}</span>
           </td>
           <td>
             <span>{totalPro}</span>

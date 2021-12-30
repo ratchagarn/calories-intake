@@ -28,7 +28,7 @@ export interface Food {
 
 interface DBContextType {
   foods: Food[]
-  addFood: (food?: Food) => void
+  addFood: (food: Food) => void
   clearAllFoods: () => void
   getTotalCaloriesIntake: () => number
 }
@@ -44,21 +44,9 @@ export function DBProvider({ children }: { children: ReactNode }) {
 
   const value = {
     foods,
-    addFood: (food?: Food) => {
+    addFood: (food: Food) => {
       setFoods((prevFoods) => {
-        const newFoods = prevFoods.concat([
-          {
-            id: uuidv4(),
-            name: 'ข้าว 100g',
-            kcal: 130,
-            carb: 28,
-            pro: 2,
-            fat: 0,
-            multiple: parseFloat(
-              (Math.random() * 2 + 0.1).toString().slice(0, 3)
-            ),
-          },
-        ])
+        const newFoods = prevFoods.concat([food])
 
         store.set(key.foods, newFoods)
 

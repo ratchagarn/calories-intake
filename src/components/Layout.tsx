@@ -1,8 +1,11 @@
 import type { FC, ReactNode } from 'react'
 
+import { useState } from 'react'
 import { NavBar, TabBar, Dialog } from 'antd-mobile'
 import { AddOutline, CloseOutline } from 'antd-mobile-icons'
 import styled from '@emotion/styled'
+
+import FoodForm from '@/components/FoodForm'
 
 import useDB from '@/hooks/useDB'
 
@@ -13,6 +16,7 @@ interface LayoutProps {
 }
 
 const Layout: FC<LayoutProps> = ({ title, children }) => {
+  const [foodFormVisible, setFoodFormVisible] = useState<boolean>(false)
   const { addFood, clearAllFoods } = useDB()
 
   return (
@@ -23,7 +27,7 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
         onChange={(key: string) => {
           switch (key) {
             case 'add':
-              addFood()
+              setFoodFormVisible(true)
               return
 
             case 'clear':
@@ -47,6 +51,14 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
         <TabBar.Item key="add" icon={AddOutline} title="Add Food" />
         <TabBar.Item key="clear" icon={CloseOutline} title="Clear All" />
       </StyledTabBar>
+      <FoodForm
+        visible={foodFormVisible}
+        onFinish={(values) => {
+          addFood(values)
+          setFoodFormVisible(false)
+        }}
+        onClose={() => setFoodFormVisible(false)}
+      />
     </LayoutContainer>
   )
 }
