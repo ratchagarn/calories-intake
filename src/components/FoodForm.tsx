@@ -6,13 +6,6 @@ import { v4 as uuidv4 } from 'uuid'
 
 import type { Food } from '@/hooks/useDB'
 
-const ruleForNumber = [
-  {
-    pattern: /\d/,
-    message: 'Should be number',
-  },
-]
-
 interface FoodFormProps {
   visible?: boolean
   initialValues?: Food

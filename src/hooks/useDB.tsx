@@ -2,7 +2,6 @@ import type { ReactNode } from 'react'
 
 import { createContext, useContext, useEffect, useState } from 'react'
 import store from 'store'
-import { v4 as uuidv4 } from 'uuid'
 
 const key = {
   foods: 'foods',
