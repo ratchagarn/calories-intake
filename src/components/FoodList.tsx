@@ -48,7 +48,7 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
       </thead>
       <tbody>
         <tr>
-          <td>Nutrients</td>
+          <td style={{ color: 'brown' }}>Nutrients</td>
           <td></td>
           <td>
             <span>{totalCarb}</span>
@@ -60,6 +60,9 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
             <span>{totalFat}</span>
           </td>
           <td></td>
+        </tr>
+        <tr>
+          <td colSpan={6} style={{ backgroundColor: '#666' }}></td>
         </tr>
         {foodRows}
       </tbody>
