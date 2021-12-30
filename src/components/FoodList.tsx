@@ -66,7 +66,7 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
           <td></td>
         </tr>
         <tr>
-          <td colSpan={6} style={{ backgroundColor: '#666' }}></td>
+          <td colSpan={6} style={{ padding: 2, backgroundColor: '#666' }}></td>
         </tr>
         {foodRows}
       </tbody>
@@ -97,6 +97,8 @@ const Table = styled.table`
   }
 
   td {
+    padding-top: 4px;
+    padding-bottom: 4px;
     border: 1px dashed #ccc;
     background-color: white;
     font-size: 14px;
