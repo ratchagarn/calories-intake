@@ -31,5 +31,5 @@ const Total = styled.span`
   font-size: 2em;
   font-weight: bold;
   letter-spacing: 1px;
-  color: brown;
+  color: darkgreen;
 `
