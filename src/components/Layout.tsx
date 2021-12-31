@@ -59,11 +59,6 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
         }}
         onClose={() => setFoodFormVisible(false)}
       />
-      <Footer>
-        <a href="https://github.com/ratchagarn" rel="noopener noreferrer">
-          @ratchagarn
-        </a>
-      </Footer>
     </LayoutContainer>
   )
 }
@@ -92,17 +87,4 @@ const Content = styled.div`
 const StyledTabBar = styled(TabBar)`
   border-top: 1px solid #ccc;
   background-color: white;
-`
-
-const Footer = styled.div`
-  height: 50px;
-  color: white;
-  line-height: 50px;
-  text-align: center;
-  background-color: black;
-
-  > a {
-    color: white;
-    text-decoration: none;
-  }
 `
