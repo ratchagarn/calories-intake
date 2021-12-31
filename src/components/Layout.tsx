@@ -23,13 +23,11 @@ export default Layout
 const LayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 45px;
 `
 
 const StyledNavbar = styled(NavBar)`
-  position: fixed;
-  top: 0;
-  width: 100%;
+  position: relative;
+  z-index: 10;
   background-color: white;
   box-shadow: 0 0 4px rgb(0 0 0 / 20%);
 `
