@@ -139,10 +139,15 @@ const Table = styled.table`
     }
   }
 
+  th {
+    background-color: #ddd;
+    font-size: 11px;
+  }
+
   td {
     padding-top: 4px;
     padding-bottom: 4px;
-    border: 1px solid #999;
+    border: 1px solid white;
     background-color: white;
     font-size: 16px;
     font-family: system-ui, Arial, Helvetica;
@@ -154,6 +159,7 @@ const Table = styled.table`
 
     > span {
       color: steelblue;
+      font-size: 17px;
       font-weight: bold;
     }
 
