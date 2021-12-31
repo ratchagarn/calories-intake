@@ -7,7 +7,9 @@ const key = {
   foods: 'foods',
 }
 
-const createDB = () => {
+export const dbIsExists = () => store.get(key.foods) != null
+
+export const createDB = () => {
   if (store.get(key.foods)) {
     return
   }
@@ -36,10 +38,8 @@ interface DBContextType {
 
 const DBContext = createContext<DBContextType>(null!)
 
-createDB()
-
 export function DBProvider({ children }: { children: ReactNode }) {
-  const [foods, setFoods] = useState<Food[]>(store.get(key.foods))
+  const [foods, setFoods] = useState<Food[]>(store.get(key.foods) || [])
 
   const value = {
     foods,

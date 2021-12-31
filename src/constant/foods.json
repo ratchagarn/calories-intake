@@ -1,0 +1,66 @@
+[
+  {
+    "name": "ข้าว 100g",
+    "kcal": 130,
+    "carb": 29,
+    "pro": 2,
+    "fat": 0,
+    "multiplier": 1
+  },
+  {
+    "name": "หมูแดง 100g",
+    "kcal": 180,
+    "carb": 0,
+    "pro": 32,
+    "fat": 0,
+    "multiplier": 1
+  },
+  {
+    "name": "ไข่ 1 ฟอง",
+    "kcal": 70,
+    "carb": 0,
+    "pro": 7,
+    "fat": 6,
+    "multiplier": 1
+  },
+  {
+    "name": "หมูสันนอก 100g",
+    "kcal": 121,
+    "carb": 0,
+    "pro": 23,
+    "fat": 2,
+    "multiplier": 1
+  },
+  {
+    "name": "อกไก่ 100g",
+    "kcal": 120,
+    "carb": 0,
+    "pro": 22,
+    "fat": 2,
+    "multiplier": 1
+  },
+  {
+    "name": "น้ำมัน 15ml",
+    "kcal": 130,
+    "carb": 0,
+    "pro": 0,
+    "fat": 14,
+    "multiplier": 1
+  },
+  {
+    "name": "เส้นเล็กลวก 100g",
+    "kcal": 108,
+    "carb": 24,
+    "pro": 2,
+    "fat": 0,
+    "multiplier": 1
+  },
+  {
+    "name": "เนื้อวัว 100g",
+    "kcal": 134,
+    "carb": 2,
+    "pro": 20,
+    "fat": 5,
+    "multiplier": 1
+  }
+]

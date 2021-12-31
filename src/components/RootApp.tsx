@@ -9,6 +9,8 @@ import FoodList from '@/components/FoodList'
 
 import useDB from '@/hooks/useDB'
 
+import withSetup from '@/HOC/withSetup'
+
 const RootApp: FC = () => {
   const { foods, getTotalCaloriesIntake } = useDB()
 
@@ -23,4 +25,4 @@ const RootApp: FC = () => {
   )
 }
 
-export default RootApp
+export default withSetup(RootApp)
