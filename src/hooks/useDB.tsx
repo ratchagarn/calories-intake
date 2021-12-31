@@ -69,7 +69,7 @@ export function DBProvider({ children }: { children: ReactNode }) {
       let result = 0
 
       foods.forEach((food) => {
-        result += food.kcal * foo
+        result += food.kcal * food.multiplier
       })
 
       return result
