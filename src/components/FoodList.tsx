@@ -142,7 +142,7 @@ const Table = styled.table`
   td {
     padding-top: 4px;
     padding-bottom: 4px;
-    border: 1px dashed #ccc;
+    border: 1px solid #999;
     background-color: white;
     font-size: 16px;
     font-family: system-ui, Arial, Helvetica;
