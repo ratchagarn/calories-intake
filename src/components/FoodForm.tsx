@@ -169,13 +169,6 @@ const CloseButton = styled.span`
   cursor: pointer;
 `
 
-const StyledSelect = styled.select`
-  width: 100%;
-  height: 24px;
-  background-color: white;
-  outline: none;
-`
-
 const StyledStepper = styled(Stepper)`
   width: 140px;
   height: 36px;
