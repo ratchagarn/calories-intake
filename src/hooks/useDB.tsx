@@ -22,7 +22,7 @@ export interface Food {
   carb: number
   pro: number
   fat: number
-  multiple: number
+  multiplier: number
 }
 
 interface DBContextType {
@@ -69,7 +69,7 @@ export function DBProvider({ children }: { children: ReactNode }) {
       let result = 0
 
       foods.forEach((food) => {
-        result += food.kcal
+        result += food.kcal * foo
       })
 
       return result

@@ -103,7 +103,11 @@ const FoodForm: FC<FoodFormProps> = ({
           <StyledStepper min={0} />
         </Form.Item>
 
-        <Form.Item name="multiple" label="Mutiple" rules={[{ required: true }]}>
+        <Form.Item
+          name="multiplier"
+          label="Mutiple"
+          rules={[{ required: true }]}
+        >
           <StyledStepper min={0} />
         </Form.Item>
       </Form>
