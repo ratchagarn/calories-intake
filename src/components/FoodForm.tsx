@@ -85,23 +85,23 @@ const FoodForm: FC<FoodFormProps> = ({
         </Form.Item>
 
         <Form.Item name="kcal" label="KCAL" rules={[{ required: true }]}>
-          <StyledStepper min={1} />
+          <StyledStepper min={0} />
         </Form.Item>
 
         <Form.Item name="carb" label="CARB">
-          <StyledStepper min={1} />
+          <StyledStepper min={0} />
         </Form.Item>
 
         <Form.Item name="pro" label="PRO">
-          <StyledStepper min={1} />
+          <StyledStepper min={0} />
         </Form.Item>
 
         <Form.Item name="fat" label="FAT">
-          <StyledStepper min={1} />
+          <StyledStepper min={0} />
         </Form.Item>
 
         <Form.Item name="multiple" label="Mutiple" rules={[{ required: true }]}>
-          <StyledStepper min={1} />
+          <StyledStepper min={0} />
         </Form.Item>
       </Form>
     </Popup>

@@ -69,7 +69,7 @@ const LayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: calc(100vh - 50px);
+  height: calc(100vh - 2px);
 `
 
 const StyledNavbar = styled(NavBar)`
@@ -78,8 +78,8 @@ const StyledNavbar = styled(NavBar)`
 `
 
 const Content = styled.div`
-  flex: 1;
   padding: 12px;
+  height: calc(100vh - 120px);
   background-color: #efefef;
   overflow: auto;
 `
