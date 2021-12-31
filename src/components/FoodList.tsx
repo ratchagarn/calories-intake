@@ -48,11 +48,11 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
     return (
       <tr key={id}>
         <td onClick={handleOnRowClick(food)}>{name}</td>
-        <td>{NutrientValue(kcal, multiplier)}</td>
-        <td>{rowCarb}</td>
-        <td>{rowPro}</td>
-        <td>{rowFat}</td>
-        <td>{multiplier}</td>
+        <td className="col-kcal">{NutrientValue(kcal, multiplier)}</td>
+        <td className="col-carb">{rowCarb}</td>
+        <td className="col-pro">{rowPro}</td>
+        <td className="col-fat">{rowFat}</td>
+        <td className="col-mul">{multiplier}</td>
       </tr>
     )
   })
@@ -74,13 +74,13 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
           <tr>
             <td style={{ color: 'brown' }}>Nutrients</td>
             <td></td>
-            <td>
+            <td className="col-carb">
               <span>{totalCarb}</span>
             </td>
-            <td>
+            <td className="col-pro">
               <span>{totalPro}</span>
             </td>
-            <td>
+            <td className="col-fat">
               <span>{totalFat}</span>
             </td>
             <td></td>
@@ -139,24 +139,42 @@ const Table = styled.table`
     }
   }
 
-  th {
-    font-size: 11px;
-  }
-
   td {
     padding-top: 4px;
     padding-bottom: 4px;
     border: 1px dashed #ccc;
     background-color: white;
-    font-size: 14px;
+    font-size: 16px;
+    font-family: system-ui, Arial, Helvetica;
 
     &:first-of-type {
-      font-size: 11px;
+      font-size: 14px;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     > span {
-      color: blue;
+      color: steelblue;
       font-weight: bold;
+    }
+
+    &.col-kcal {
+      background-color: #f2faff;
+    }
+
+    &.col-carb {
+      background-color: #f2ece6;
+    }
+
+    &.col-pro {
+      background-color: #fce1de;
+    }
+
+    &.col-fat {
+      background-color: #f7f6d2;
+    }
+
+    &.col-mul {
+      background-color: #f9efff;
     }
   }
 `

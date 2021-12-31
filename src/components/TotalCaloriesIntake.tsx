@@ -11,7 +11,7 @@ interface TotalCaloriesIntakeProps {
 const TotalCaloriesIntake: FC<TotalCaloriesIntakeProps> = ({ kcal }) => {
   return (
     <StyledCard>
-      Today Calories Intake: <Total>{numeral(kcal).format('0,0')}</Total>
+      Today Calories Intake<Total>{numeral(kcal).format('0,0')}</Total>
     </StyledCard>
   )
 }
@@ -19,6 +19,9 @@ const TotalCaloriesIntake: FC<TotalCaloriesIntakeProps> = ({ kcal }) => {
 export default TotalCaloriesIntake
 
 const StyledCard = styled(Card)`
+  color: #454545;
+  font-size: 16px;
+
   .adm-card-body {
     display: flex;
     align-items: center;
@@ -28,8 +31,9 @@ const StyledCard = styled(Card)`
 
 const Total = styled.span`
   margin-left: 8px;
-  font-size: 2em;
+  color: palevioletred;
+  font-size: 36px;
   font-weight: bold;
+  font-family: system-ui, Arial, Helvetica;
   letter-spacing: 1px;
-  color: darkgreen;
 `
