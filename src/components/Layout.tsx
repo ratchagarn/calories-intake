@@ -59,6 +59,11 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
         }}
         onClose={() => setFoodFormVisible(false)}
       />
+      <Footer>
+        <a href="https://github.com/ratchagarn" rel="noopener noreferrer">
+          @ratchagarn
+        </a>
+      </Footer>
     </LayoutContainer>
   )
 }
@@ -69,7 +74,7 @@ const LayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 20px);
+  min-height: 100vh;
 `
 
 const StyledNavbar = styled(NavBar)`
@@ -79,7 +84,7 @@ const StyledNavbar = styled(NavBar)`
 
 const Content = styled.div`
   padding: 12px;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 170px);
   background-color: #efefef;
   overflow: auto;
 `
@@ -87,4 +92,17 @@ const Content = styled.div`
 const StyledTabBar = styled(TabBar)`
   border-top: 1px solid #ccc;
   background-color: white;
+`
+
+const Footer = styled.div`
+  height: 50px;
+  color: white;
+  line-height: 50px;
+  text-align: center;
+  background-color: black;
+
+  > a {
+    color: white;
+    text-decoration: none;
+  }
 `
