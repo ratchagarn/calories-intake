@@ -28,6 +28,8 @@ const FoodForm: FC<FoodFormProps> = ({
 }) => {
   const [form] = Form.useForm()
 
+  const isUpdateMode = initialValues != null
+
   const handleOnSelectChange = (id: string) => {
     if (!id) {
       return
@@ -50,7 +52,7 @@ const FoodForm: FC<FoodFormProps> = ({
     form.resetFields()
     onFinish?.({
       ...values,
-      id: initialValues ? initialValues.id : uuidv4(),
+      id: isUpdateMode ? initialValues.id : uuidv4(),
     })
   }
 
@@ -90,13 +92,14 @@ const FoodForm: FC<FoodFormProps> = ({
         onFinish={handleOnFinshed}
         footer={
           <Space direction="vertical" block>
-            <Button block type="submit" color="primary">
-              Save
+            <Button block type="submit" color="primary" size="large">
+              {isUpdateMode ? 'Update' : 'Save'}
             </Button>
-            {initialValues && (
+            {isUpdateMode && (
               <Button
                 block
                 color="danger"
+                size="large"
                 onClick={handleOnDelete(initialValues.id)}
               >
                 Delete
