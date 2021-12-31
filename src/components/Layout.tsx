@@ -73,16 +73,18 @@ const LayoutContainer = styled.div`
 `
 
 const StyledNavbar = styled(NavBar)`
+  background-color: white;
   box-shadow: 0 0 4px rgb(0 0 0 / 20%);
 `
 
 const Content = styled.div`
+  flex: 1;
   padding: 12px;
-  height: calc(100vh - 120px);
   background-color: #efefef;
   overflow: auto;
 `
 
 const StyledTabBar = styled(TabBar)`
   border-top: 1px solid #ccc;
+  background-color: white;
 `
