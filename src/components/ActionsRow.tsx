@@ -34,7 +34,7 @@ const ActionRows: FC = () => {
             <span>Add Food</span>
           </Space>
         </Button>
-        <Button color="danger" onClick={handleOnReset}>
+        <Button onClick={handleOnReset}>
           <RedoOutline />
         </Button>
       </Container>
