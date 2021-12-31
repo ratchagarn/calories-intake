@@ -1,6 +1,7 @@
 import type { FC } from 'react'
 
 import { Popup, Form, Input, Stepper, Button, Dialog, Space } from 'antd-mobile'
+import { CloseOutline } from 'antd-mobile-icons'
 import styled from '@emotion/styled'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -56,7 +57,9 @@ const FoodForm: FC<FoodFormProps> = ({
     >
       <Header>
         <h3>Food Form</h3>
-        <CloseButton onClick={onClose}>✕</CloseButton>
+        <CloseButton onClick={onClose}>
+          <CloseOutline />
+        </CloseButton>
       </Header>
       <Form
         form={form}
