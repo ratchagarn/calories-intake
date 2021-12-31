@@ -5,6 +5,8 @@ import { CloseOutline } from 'antd-mobile-icons'
 import styled from '@emotion/styled'
 import { v4 as uuidv4 } from 'uuid'
 
+import Select from '@/components/Select'
+
 import foodPresetData from '@/constant/foodPresetData'
 
 import type { Food } from '@/hooks/useDB'
@@ -26,13 +28,16 @@ const FoodForm: FC<FoodFormProps> = ({
 }) => {
   const [form] = Form.useForm()
 
-  const handleOnSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const id = e.target.value
+  const handleOnSelectChange = (id: string) => {
+    if (!id) {
+      return
+    }
 
     const selectedFood = foodPresetData.find((item) => item.id === id) as Food
 
     form.setFieldsValue({
       id: selectedFood.id,
+      name: selectedFood.name,
       kcal: selectedFood.kcal,
       carb: selectedFood.carb,
       pro: selectedFood.pro,
@@ -101,13 +106,14 @@ const FoodForm: FC<FoodFormProps> = ({
         }
       >
         <Form.Item label="Preset">
-          <StyledSelect onChange={handleOnSelectChange}>
+          <Select onChange={handleOnSelectChange}>
+            <option value="">--- เลือก ---</option>
             {foodPresetData.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.name}
               </option>
             ))}
-          </StyledSelect>
+          </Select>
         </Form.Item>
 
         <Form.Item name="name" label="Name" rules={[{ required: true }]}>
