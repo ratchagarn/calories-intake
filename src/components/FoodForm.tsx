@@ -1,9 +1,11 @@
-import type { FC } from 'react'
+import type { FC, ChangeEvent } from 'react'
 
 import { Popup, Form, Input, Stepper, Button, Dialog, Space } from 'antd-mobile'
 import { CloseOutline } from 'antd-mobile-icons'
 import styled from '@emotion/styled'
 import { v4 as uuidv4 } from 'uuid'
+
+import foodPresetData from '@/constant/foodPresetData'
 
 import type { Food } from '@/hooks/useDB'
 
@@ -23,6 +25,21 @@ const FoodForm: FC<FoodFormProps> = ({
   onClose,
 }) => {
   const [form] = Form.useForm()
+
+  const handleOnSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const id = e.target.value
+
+    const selectedFood = foodPresetData.find((item) => item.id === id) as Food
+
+    form.setFieldsValue({
+      id: selectedFood.id,
+      kcal: selectedFood.kcal,
+      carb: selectedFood.carb,
+      pro: selectedFood.pro,
+      fat: selectedFood.fat,
+      multiplier: selectedFood.multiplier,
+    })
+  }
 
   const handleOnFinshed = (values: Food) => {
     form.resetFields()
@@ -83,6 +100,16 @@ const FoodForm: FC<FoodFormProps> = ({
           </Space>
         }
       >
+        <Form.Item label="Preset">
+          <StyledSelect onChange={handleOnSelectChange}>
+            {foodPresetData.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </StyledSelect>
+        </Form.Item>
+
         <Form.Item name="name" label="Name" rules={[{ required: true }]}>
           <Input placeholder="Please add food name..." />
         </Form.Item>
@@ -134,6 +161,13 @@ const CloseButton = styled.span`
   right: 16px;
   font-size: 1.2em;
   cursor: pointer;
+`
+
+const StyledSelect = styled.select`
+  width: 100%;
+  height: 24px;
+  background-color: white;
+  outline: none;
 `
 
 const StyledStepper = styled(Stepper)`
