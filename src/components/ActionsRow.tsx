@@ -9,7 +9,10 @@ import FoodForm from '@/components/FoodForm'
 
 import useDB from '@/hooks/useDB'
 
+import { createRenderKey } from '@/helpers/utils'
+
 const ActionRows: FC = () => {
+  const [renderKey, setRenderKey] = useState<string>(createRenderKey())
   const [foodFormVisible, setFoodFormVisible] = useState<boolean>(false)
 
   const { addFood, clearAllFoods } = useDB()
@@ -28,7 +31,17 @@ const ActionRows: FC = () => {
   return (
     <>
       <Container>
-        <Button color="primary" block onClick={() => setFoodFormVisible(true)}>
+        <Button
+          color="primary"
+          block
+          onClick={() => {
+            setRenderKey(createRenderKey())
+
+            setTimeout(() => {
+              setFoodFormVisible(true)
+            })
+          }}
+        >
           <Space>
             <AddOutline />
             <span>Add Food</span>
@@ -40,6 +53,7 @@ const ActionRows: FC = () => {
       </Container>
 
       <FoodForm
+        key={renderKey}
         visible={foodFormVisible}
         onFinish={(values) => {
           addFood(values)
@@ -55,5 +69,10 @@ export default ActionRows
 
 const Container = styled.div`
   display: flex;
-  gap: 8px;
+
+  > button {
+    &:first-of-type {
+      margin-right: 12px;
+    }
+  }
 `
