@@ -1,15 +1,33 @@
 import type { FC } from 'react'
 
-import { Popup, Form, Input, Stepper, Button, Dialog, Space } from 'antd-mobile'
+import {
+  Popup,
+  Form,
+  Input,
+  Button,
+  Dialog,
+  Space,
+  NumberKeyboard,
+} from 'antd-mobile'
 import { CloseOutline } from 'antd-mobile-icons'
 import styled from '@emotion/styled'
 import { v4 as uuidv4 } from 'uuid'
 
 import Select from '@/components/Select'
 
+import useNumberKeyboardWithForm from '@/hooks/useNumberKeyboardWithForm'
+
 import foodPresetData from '@/constant/foodPresetData'
 
 import type { Food } from '@/hooks/useDB'
+
+const ruleForNumber = [
+  { required: true },
+  {
+    pattern: /^\d+(\.\d{1,2})?$/,
+    message: 'Invalid number',
+  },
+]
 
 interface FoodFormProps {
   visible?: boolean
@@ -27,6 +45,13 @@ const FoodForm: FC<FoodFormProps> = ({
   onClose,
 }) => {
   const [form] = Form.useForm()
+  const {
+    numberKeyboardVisible,
+    onOpenNumberKeyboard,
+    onNumberKeyboardInput,
+    onNumberKeyboardDelete,
+    onNumberKeyboardClose,
+  } = useNumberKeyboardWithForm(form)
 
   const isUpdateMode = initialValues != null
 
@@ -49,11 +74,41 @@ const FoodForm: FC<FoodFormProps> = ({
     })
   }
 
+  // const handleOnOpenNumberKeyboard = (field: string) => () => {
+  //   setNumberKeyboardVisible(true)
+  //   setActiveField(field)
+  // }
+
+  // const handleOnNumberKeyboardInput = (v: string) => {
+  //   if (!activeField) {
+  //     return
+  //   }
+
+  //   const prevValue = form.getFieldValue(activeField) || ''
+  //   const newValue = `${prevValue}${v}`
+
+  //   form.setFieldsValue({
+  //     [activeField]: newValue,
+  //   })
+  // }
+
+  // const handleOnNumberKeyboardDelete = () => {
+  //   form.setFieldsValue({
+  //     [activeField]: form.getFieldValue(activeField).slice(0, -1),
+  //   })
+  // }
+
   const handleOnFinshed = (values: Food) => {
     form.resetFields()
+
     onFinish?.({
-      ...values,
       id: isUpdateMode ? initialValues.id : uuidv4(),
+      name: values.name,
+      kcal: Number(values.kcal),
+      carb: Number(values.carb),
+      pro: Number(values.pro),
+      fat: Number(values.fat),
+      multiplier: Number(values.multiplier),
     })
   }
 
@@ -71,84 +126,116 @@ const FoodForm: FC<FoodFormProps> = ({
 
   const handleOnClose = () => {
     onClose?.()
+
     form.resetFields()
   }
 
   return (
-    <Popup
-      visible={visible}
-      onMaskClick={handleOnClose}
-      bodyStyle={{ height: '100vh', overflowY: 'scroll' }}
-    >
-      <Header>
-        <h3>Food Form</h3>
-        <CloseButton onClick={onClose}>
-          <CloseOutline />
-        </CloseButton>
-      </Header>
-      <Form
-        form={form}
-        layout="horizontal"
-        initialValues={initialValues}
-        onFinish={handleOnFinshed}
-        footer={
-          <Space direction="vertical" block>
-            <Button block type="submit" color="primary" size="large">
-              {isUpdateMode ? 'Update' : 'Save'}
-            </Button>
-            {isUpdateMode && (
-              <Button
-                block
-                color="danger"
-                size="large"
-                onClick={handleOnDelete(initialValues.id)}
-              >
-                Delete
-              </Button>
-            )}
-          </Space>
-        }
+    <>
+      <Popup
+        visible={visible}
+        onMaskClick={handleOnClose}
+        bodyStyle={{ height: '100vh', overflowY: 'scroll' }}
       >
-        <Form.Item label="Preset">
-          <Select onChange={handleOnSelectChange}>
-            <option value="">--- Select ---</option>
-            {foodPresetData.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-          </Select>
-        </Form.Item>
-
-        <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-          <Input placeholder="Please add food name..." />
-        </Form.Item>
-
-        <Form.Item name="kcal" label="KCAL" rules={[{ required: true }]}>
-          <StyledStepper min={0} />
-        </Form.Item>
-
-        <Form.Item name="carb" label="CARB">
-          <StyledStepper min={0} />
-        </Form.Item>
-
-        <Form.Item name="pro" label="PRO">
-          <StyledStepper min={0} />
-        </Form.Item>
-
-        <Form.Item name="fat" label="FAT">
-          <StyledStepper min={0} />
-        </Form.Item>
-
-        <Form.Item
-          name="multiplier"
-          label="Multiplier"
-          rules={[{ required: true }]}
+        <Header>
+          <h3>Food Form</h3>
+          <CloseButton onClick={onClose}>
+            <CloseOutline />
+          </CloseButton>
+        </Header>
+        <Form
+          form={form}
+          layout="horizontal"
+          initialValues={initialValues}
+          onFinish={handleOnFinshed}
+          footer={
+            <Space direction="vertical" block>
+              <Button block type="submit" color="primary" size="large">
+                {isUpdateMode ? 'Update' : 'Save'}
+              </Button>
+              {isUpdateMode && (
+                <Button
+                  block
+                  color="danger"
+                  size="large"
+                  onClick={handleOnDelete(initialValues.id)}
+                >
+                  Delete
+                </Button>
+              )}
+            </Space>
+          }
         >
-          <StyledStepper min={0} />
-        </Form.Item>
-      </Form>
-    </Popup>
+          <Form.Item label="Preset">
+            <Select onChange={handleOnSelectChange}>
+              <option value="">--- Select ---</option>
+              {foodPresetData.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+            <Input placeholder="Please add food name..." />
+          </Form.Item>
+
+          <Form.Item
+            name="kcal"
+            label="KCAL"
+            rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('kcal')}
+          >
+            <Input placeholder="0" readOnly />
+          </Form.Item>
+
+          <Form.Item
+            name="carb"
+            label="CARB"
+            rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('carb')}
+          >
+            <Input placeholder="0" readOnly />
+          </Form.Item>
+
+          <Form.Item
+            name="pro"
+            label="PRO"
+            rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('pro')}
+          >
+            <Input placeholder="0" readOnly />
+          </Form.Item>
+
+          <Form.Item
+            name="fat"
+            label="FAT"
+            rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('fat')}
+          >
+            <Input placeholder="0" readOnly />
+          </Form.Item>
+
+          <Form.Item
+            name="multiplier"
+            label="Multiplier"
+            rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('multiplier')}
+          >
+            <Input placeholder="0" readOnly />
+          </Form.Item>
+        </Form>
+      </Popup>
+
+      <NumberKeyboard
+        visible={numberKeyboardVisible}
+        customKey="."
+        onInput={onNumberKeyboardInput}
+        onDelete={onNumberKeyboardDelete}
+        onClose={onNumberKeyboardClose}
+      />
+    </>
   )
 }
 
@@ -171,13 +258,4 @@ const CloseButton = styled.span`
   right: 16px;
   font-size: 1.2em;
   cursor: pointer;
-`
-
-const StyledStepper = styled(Stepper)`
-  width: 140px;
-  height: 36px;
-
-  .adm-stepper-input > input {
-    font-size: 1.2em;
-  }
 `
