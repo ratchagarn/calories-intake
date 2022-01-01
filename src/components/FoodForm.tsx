@@ -74,9 +74,14 @@ const FoodForm: FC<FoodFormProps> = ({
     })
   }
 
-  const handleOnFinshed = (values: Food) => {
-    form.resetFields()
+  const handleOnClose = () => {
+    onClose?.()
 
+    onNumberKeyboardClose()
+    form.resetFields()
+  }
+
+  const handleOnFinshed = (values: Food) => {
     onFinish?.({
       id: isUpdateMode ? initialValues.id : uuidv4(),
       name: values.name,
@@ -86,6 +91,8 @@ const FoodForm: FC<FoodFormProps> = ({
       fat: Number(values.fat),
       multiplier: Number(values.multiplier),
     })
+
+    handleOnClose()
   }
 
   const handleOnDelete = (id: string) => () => {
@@ -98,13 +105,6 @@ const FoodForm: FC<FoodFormProps> = ({
         form.resetFields()
       },
     })
-  }
-
-  const handleOnClose = () => {
-    onClose?.()
-
-    onNumberKeyboardClose()
-    form.resetFields()
   }
 
   return (
