@@ -7,3 +7,7 @@ body {
 .adm-space {
   --gap: 12px;
 }
+
+.adm-number-keyboard-key {
+  height: 64px;
+}
