@@ -74,30 +74,6 @@ const FoodForm: FC<FoodFormProps> = ({
     })
   }
 
-  // const handleOnOpenNumberKeyboard = (field: string) => () => {
-  //   setNumberKeyboardVisible(true)
-  //   setActiveField(field)
-  // }
-
-  // const handleOnNumberKeyboardInput = (v: string) => {
-  //   if (!activeField) {
-  //     return
-  //   }
-
-  //   const prevValue = form.getFieldValue(activeField) || ''
-  //   const newValue = `${prevValue}${v}`
-
-  //   form.setFieldsValue({
-  //     [activeField]: newValue,
-  //   })
-  // }
-
-  // const handleOnNumberKeyboardDelete = () => {
-  //   form.setFieldsValue({
-  //     [activeField]: form.getFieldValue(activeField).slice(0, -1),
-  //   })
-  // }
-
   const handleOnFinshed = (values: Food) => {
     form.resetFields()
 
@@ -127,6 +103,7 @@ const FoodForm: FC<FoodFormProps> = ({
   const handleOnClose = () => {
     onClose?.()
 
+    onNumberKeyboardClose()
     form.resetFields()
   }
 
@@ -139,7 +116,7 @@ const FoodForm: FC<FoodFormProps> = ({
       >
         <Header>
           <h3>Food Form</h3>
-          <CloseButton onClick={onClose}>
+          <CloseButton onClick={handleOnClose}>
             <CloseOutline />
           </CloseButton>
         </Header>

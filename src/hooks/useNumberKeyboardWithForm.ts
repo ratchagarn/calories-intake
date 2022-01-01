@@ -34,7 +34,11 @@ const useNumberKeyboardWithForm = (form: FormInstance) => {
   }
 
   const onNumberKeyboardDelete = () => {
-    const newValue = form.getFieldValue(activeField).slice(0, -1)
+    if (!activeField) {
+      return
+    }
+
+    const newValue = form.getFieldValue(activeField).toString().slice(0, -1)
 
     Toast.show({
       content: newValue,

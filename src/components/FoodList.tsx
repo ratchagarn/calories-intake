@@ -181,6 +181,8 @@ const Table = styled.table`
 
     &.col-mul {
       background-color: #f9efff;
+      color: orangered;
+      font-weight: bold;
     }
   }
 `
