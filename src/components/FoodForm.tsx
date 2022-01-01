@@ -194,13 +194,8 @@ const FoodForm: FC<FoodFormProps> = ({
             <Input placeholder="0" readOnly />
           </Form.Item>
 
-          <Form.Item
-            name="multiplier"
-            label="Multiplier"
-            rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('multiplier')}
-          >
-            <Input placeholder="0" readOnly />
+          <Form.Item name="multiplier" label="Multiplier" rules={ruleForNumber}>
+            <Input type="tel" placeholder="0" />
           </Form.Item>
         </Form>
       </Popup>
