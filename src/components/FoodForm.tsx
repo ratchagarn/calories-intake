@@ -32,6 +32,7 @@ const FoodForm: FC<FoodFormProps> = ({
 
   const handleOnSelectChange = (id: string) => {
     if (!id) {
+      form.resetFields()
       return
     }
 
@@ -110,7 +111,7 @@ const FoodForm: FC<FoodFormProps> = ({
       >
         <Form.Item label="Preset">
           <Select onChange={handleOnSelectChange}>
-            <option value="">--- เลือก ---</option>
+            <option value="">--- Select ---</option>
             {foodPresetData.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.name}
