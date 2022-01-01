@@ -4,63 +4,132 @@
     "kcal": 130,
     "carb": 29,
     "pro": 2,
-    "fat": 0,
-    "multiplier": 1
+    "fat": 0
   },
   {
-    "name": "หมูแดง 100g",
-    "kcal": 180,
-    "carb": 0,
-    "pro": 32,
-    "fat": 0,
-    "multiplier": 1
-  },
-  {
-    "name": "ไข่ 1 ฟอง",
-    "kcal": 70,
-    "carb": 0,
-    "pro": 7,
-    "fat": 6,
-    "multiplier": 1
-  },
-  {
-    "name": "หมูสันนอก 100g",
-    "kcal": 121,
-    "carb": 0,
-    "pro": 23,
-    "fat": 2,
-    "multiplier": 1
-  },
-  {
-    "name": "อกไก่ 100g",
-    "kcal": 120,
-    "carb": 0,
-    "pro": 22,
-    "fat": 2,
-    "multiplier": 1
-  },
-  {
-    "name": "น้ำมัน 15ml",
-    "kcal": 130,
-    "carb": 0,
-    "pro": 0,
-    "fat": 14,
-    "multiplier": 1
+    "name": "ข้าวเหนียว 100g",
+    "kcal": 92,
+    "carb": 21,
+    "pro": 2,
+    "fat": 0
   },
   {
     "name": "เส้นเล็กลวก 100g",
     "kcal": 108,
     "carb": 24,
     "pro": 2,
-    "fat": 0,
-    "multiplier": 1
+    "fat": 0
+  },
+  {
+    "name": "บะหมี่ไข่ 100g",
+    "kcal": 389,
+    "carb": 72,
+    "pro": 14,
+    "fat": 5
+  },
+  {
+    "name": "แป้งทอดกรอบ 100g",
+    "kcal": 292,
+    "carb": 73,
+    "pro": 0,
+    "fat": 0
+  },
+  {
+    "name": "ไข่ 1 ฟอง",
+    "kcal": 70,
+    "carb": 0,
+    "pro": 7,
+    "fat": 6
+  },
+  {
+    "name": "อกไก่ 100g",
+    "kcal": 120,
+    "carb": 0,
+    "pro": 22,
+    "fat": 2
   },
   {
     "name": "เนื้อวัว 100g",
     "kcal": 134,
     "carb": 2,
     "pro": 20,
-    "fat": 5,
-    "multiplier": 1
+    "fat": 5
+  },
+  {
+    "name": "กุ้ง 100g",
+    "kcal": 96,
+    "carb": 0,
+    "pro": 24,
+    "fat": 0
+  },
+  {
+    "name": "ปลาหมึก 100g",
+    "kcal": 81,
+    "carb": 3,
+    "pro": 15,
+    "fat": 1
+  },
+  {
+    "name": "ปลาหมึกแห้ง 10g",
+    "kcal": 32,
+    "carb": 0,
+    "pro": 8,
+    "fat": 0
+  },
+  {
+    "name": "ตับหมู 100g",
+    "kcal": 119,
+    "carb": 2,
+    "pro": 21,
+    "fat": 3
+  },
+  {
+    "name": "หมูแดง 100g",
+    "kcal": 232,
+    "carb": 4,
+    "pro": 32,
+    "fat": 4
+  },
+  {
+    "name": "หมูสันนอก 100g",
+    "kcal": 121,
+    "carb": 0,
+    "pro": 23,
+    "fat": 2
+  },
+  {
+    "name": "สามชั้นสไลด์ 100g",
+    "kcal": 256,
+    "carb": 0,
+    "pro": 19,
+    "fat": 20
+  },
+  {
+    "name": "น้ำมัน 15ml",
+    "kcal": 130,
+    "carb": 0,
+    "pro": 0,
+    "fat": 14
+  },
+  {
+    "name": "เนยเค็ม 100g",
+    "kcal": 729,
+    "carb": 0,
+    "pro": 0,
+    "fat": 81
+  },
+  {
+    "name": "กากหมูเจียว 100g",
+    "kcal": 636,
+    "carb": 0,
+    "pro": 45,
+    "fat": 50
+  },
+  {
+    "name": "กุนเชียง 20g",
+    "kcal": 90,
+    "carb": 3,
+    "pro": 5,
+    "fat": 6
   }
 ]
