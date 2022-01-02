@@ -11,3 +11,13 @@ body {
 .adm-number-keyboard-key {
   height: 64px;
 }
+
+.adm-number-keyboard-popup.adm-popup .adm-popup-body {
+  padding-bottom: 16px;
+  background-color: white;
+  box-shadow: 0 0 2px rgb(0 0 0 / 20%);
+}
+
+.adm-number-keyboard-key.sign-key {
+  background-color: #f5f5f5;
+}
