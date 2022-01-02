@@ -5,13 +5,11 @@ import {
   Popup,
   Form,
   Input,
-  Stepper,
   Button,
   Dialog,
   Space,
   NumberKeyboard,
 } from 'antd-mobile'
-import styled from '@emotion/styled'
 import { v4 as uuidv4 } from 'uuid'
 
 import PopupTitle from '@/components/PopupTitle'
@@ -247,8 +245,13 @@ const FoodForm: FC<FoodFormProps> = ({
             <Input placeholder="0" readOnly />
           </Form.Item>
 
-          <Form.Item name="multiplier" label="Multiplier" rules={ruleForNumber}>
-            <StyledStepper min={0} step={1} digits={2} />
+          <Form.Item
+            name="multiplier"
+            label="Multiplier"
+            rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('multiplier')}
+          >
+            <Input placeholder="0" readOnly />
           </Form.Item>
         </Form>
       </Popup>
@@ -265,8 +268,3 @@ const FoodForm: FC<FoodFormProps> = ({
 }
 
 export default FoodForm
-
-const StyledStepper = styled(Stepper)`
-  width: 100px;
-  transform: scale(1.2);
-`
