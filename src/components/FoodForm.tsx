@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 
+import { useState } from 'react'
 import {
   Popup,
   Form,
@@ -51,6 +52,7 @@ const FoodForm: FC<FoodFormProps> = ({
     onNumberKeyboardDelete,
     onNumberKeyboardClose,
   } = useNumberKeyboardWithForm(form)
+  const [editQty, setEditQty] = useState<boolean>(false)
 
   const isUpdateMode = initialValues != null
 
@@ -159,15 +161,50 @@ const FoodForm: FC<FoodFormProps> = ({
           </Form.Item>
 
           <Form.Item
+            noStyle
+            shouldUpdate={(prevValues, curValues) =>
+              prevValues.qty !== curValues.qty ||
+              prevValues.unit !== curValues.unit
+            }
+          >
+            {() => {
+              const qty = form.getFieldValue('qty')
+              const unit = form.getFieldValue('unit')
+
+              return (
+                <Form.Item label="Quantity" hidden={editQty}>
+                  <Space>
+                    {qty && unit && (
+                      <span>
+                        {qty}
+                        {unit}
+                      </span>
+                    )}
+                    <Button size="mini" onClick={() => setEditQty(true)}>
+                      EDIT
+                    </Button>
+                  </Space>
+                </Form.Item>
+              )
+            }}
+          </Form.Item>
+
+          <Form.Item
             name="qty"
             label="Quantity"
             rules={ruleForNumber}
             onClick={onOpenNumberKeyboard('qty')}
+            hidden={!editQty}
           >
             <Input placeholder="0" readOnly />
           </Form.Item>
 
-          <Form.Item name="unit" label="Unit">
+          <Form.Item
+            name="unit"
+            label="Unit"
+            rules={[{ required: true }]}
+            hidden={!editQty}
+          >
             <Input placeholder="Food unit (example: g, ml)" />
           </Form.Item>
 
