@@ -22,7 +22,7 @@ interface FoodListProps {
 }
 
 const FoodList: FC<FoodListProps> = ({ foods }) => {
-  const { updateFood, deleteFood, latestUpdate } = useDB()
+  const { updateFood, deleteFood, latestUpdate, settings } = useDB()
   const [foodFormVisible, setFoodFormVisible] = useState<boolean>(false)
   const [formValues, setFormValues] = useState<Food>()
 
@@ -102,7 +102,7 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
         </tbody>
       </Table>
 
-      {latestUpdate && (
+      {settings.displayLatestUpdate && latestUpdate && (
         <LatestUpdate>
           Latest update: {dayjs(latestUpdate).format('YYYY-MM-DD HH:mm:ss')}
         </LatestUpdate>

@@ -19,6 +19,7 @@ export interface Food {
 
 export interface Settings {
   numberKeyboardPreview: boolean
+  displayLatestUpdate: boolean
 }
 
 const key = {
@@ -29,6 +30,7 @@ const key = {
 
 export const defaultSettings: Settings = {
   numberKeyboardPreview: true,
+  displayLatestUpdate: true,
 }
 
 export const dbIsExists = () =>
@@ -49,6 +51,7 @@ interface DBContextType {
   getTotalCaloriesIntake: () => number
   settings: Settings
   updateSettings: (newSettings: Settings) => void
+  restoreSettings: VoidFunction
   latestUpdate: string
 }
 
@@ -116,6 +119,10 @@ export function DBProvider({ children }: { children: ReactNode }) {
     updateSettings: (newSettings: Settings) => {
       store.set(key.settings, newSettings)
       setSettings(newSettings)
+    },
+    restoreSettings: () => {
+      store.set(key.settings, defaultSettings)
+      setSettings(defaultSettings)
     },
     latestUpdate,
   }
