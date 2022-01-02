@@ -9,10 +9,9 @@ import {
   Space,
   NumberKeyboard,
 } from 'antd-mobile'
-import { CloseOutline } from 'antd-mobile-icons'
-import styled from '@emotion/styled'
 import { v4 as uuidv4 } from 'uuid'
 
+import PopupTitle from '@/components/PopupTitle'
 import Select from '@/components/Select'
 
 import useNumberKeyboardWithForm from '@/hooks/useNumberKeyboardWithForm'
@@ -114,12 +113,8 @@ const FoodForm: FC<FoodFormProps> = ({
         onMaskClick={handleOnClose}
         bodyStyle={{ height: '100vh', overflowY: 'scroll' }}
       >
-        <Header>
-          <h3>Food Form</h3>
-          <CloseButton onClick={handleOnClose}>
-            <CloseOutline />
-          </CloseButton>
-        </Header>
+        <PopupTitle title="Food Form" onClose={handleOnClose} />
+
         <Form
           form={form}
           layout="horizontal"
@@ -217,22 +212,3 @@ const FoodForm: FC<FoodFormProps> = ({
 }
 
 export default FoodForm
-
-const Header = styled.div`
-  position: relative;
-  text-align: center;
-  padding: 8px 16px;
-
-  > h3 {
-    margin: 0;
-    font-size: 1.2em;
-  }
-`
-
-const CloseButton = styled.span`
-  position: absolute;
-  top: 8px;
-  right: 16px;
-  font-size: 1.2em;
-  cursor: pointer;
-`
