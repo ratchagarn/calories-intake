@@ -1,11 +1,26 @@
+import type { ReactNode } from 'react'
+
 import { useState } from 'react'
 import { Toast } from 'antd-mobile'
 
 import type { FormInstance } from 'rc-field-form'
 
-const toastDuration = 750
+import useDB from '@/hooks/useDB'
 
 const useNumberKeyboardWithForm = (form: FormInstance) => {
+  const { settings } = useDB()
+
+  const displayNumberKeyboardPreview = (content: ReactNode) => {
+    if (!settings.numberKeyboardPreview) {
+      return
+    }
+
+    Toast.show({
+      content,
+      duration: 750,
+    })
+  }
+
   const [numberKeyboardVisible, setNumberKeyboardVisible] =
     useState<boolean>(false)
   const [activeField, setActiveField] = useState<string>('')
@@ -23,10 +38,7 @@ const useNumberKeyboardWithForm = (form: FormInstance) => {
     const prevValue = form.getFieldValue(activeField) || ''
     const newValue = `${prevValue}${v}`
 
-    Toast.show({
-      content: newValue,
-      duration: toastDuration,
-    })
+    displayNumberKeyboardPreview(newValue)
 
     form.setFieldsValue({
       [activeField]: newValue,
@@ -40,10 +52,7 @@ const useNumberKeyboardWithForm = (form: FormInstance) => {
 
     const newValue = form.getFieldValue(activeField).toString().slice(0, -1)
 
-    Toast.show({
-      content: newValue,
-      duration: toastDuration,
-    })
+    displayNumberKeyboardPreview(newValue)
 
     form.setFieldsValue({
       [activeField]: newValue,

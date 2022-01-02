@@ -3,21 +3,6 @@ import type { ReactNode } from 'react'
 import { createContext, useContext, useState } from 'react'
 import store from 'store'
 
-const key = {
-  foods: 'foods',
-  settings: 'settings',
-}
-
-export const dbIsExists = () => store.get(key.foods) != null
-
-export const createDB = () => {
-  if (store.get(key.foods)) {
-    return
-  }
-
-  store.set(key.foods, [])
-}
-
 export interface Food {
   id: string
   name: string
@@ -33,6 +18,23 @@ export interface Food {
 
 export interface Settings {
   numberKeyboardPreview: boolean
+}
+
+const key = {
+  foods: 'foods',
+  settings: 'settings',
+}
+
+export const defaultSettings: Settings = {
+  numberKeyboardPreview: true,
+}
+
+export const dbIsExists = () =>
+  store.get(key.foods) != null && store.get(key.settings)
+
+export const createDB = () => {
+  !store.get(key.foods) && store.set(key.foods, [])
+  !store.get(key.settings) && store.set(key.settings, defaultSettings)
 }
 
 interface DBContextType {
@@ -99,13 +101,8 @@ export function DBProvider({ children }: { children: ReactNode }) {
 
     settings,
     updateSettings: (newSettings: Settings) => {
-      const mergedSettings = {
-        ...settings,
-        ...newSettings,
-      }
-
-      store.set(key.foods, mergedSettings)
-      setSettings(mergedSettings)
+      store.set(key.settings, newSettings)
+      setSettings(newSettings)
     },
   }
 

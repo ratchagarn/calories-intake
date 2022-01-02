@@ -181,15 +181,6 @@ const FoodForm: FC<FoodFormProps> = ({
           </Form.Item>
 
           <Form.Item
-            name="kcal"
-            label="KCAL"
-            rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('kcal')}
-          >
-            <Input placeholder="0" readOnly />
-          </Form.Item>
-
-          <Form.Item
             name="carb"
             label="CARB"
             rules={ruleForNumber}

@@ -5,7 +5,7 @@ import { NavBar } from 'antd-mobile'
 import { MoreOutline } from 'antd-mobile-icons'
 import styled from '@emotion/styled'
 
-import Settings from '@/components/Settings'
+import SettingsPopup from '@/components/SettingsPopup'
 
 interface LayoutProps {
   title: ReactNode
@@ -29,7 +29,7 @@ const Layout: FC<LayoutProps> = ({ title, children }) => {
         </StyledNavbar>
         <Content>{children}</Content>
       </LayoutContainer>
-      <Settings
+      <SettingsPopup
         visible={settingsVisible}
         onClose={() => setSettingsPopupVisible(false)}
       />
