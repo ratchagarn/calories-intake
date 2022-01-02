@@ -5,11 +5,13 @@ import {
   Popup,
   Form,
   Input,
+  Stepper,
   Button,
   Dialog,
   Space,
   NumberKeyboard,
 } from 'antd-mobile'
+import styled from '@emotion/styled'
 import { v4 as uuidv4 } from 'uuid'
 
 import PopupTitle from '@/components/PopupTitle'
@@ -18,6 +20,8 @@ import Select from '@/components/Select'
 import useNumberKeyboardWithForm from '@/hooks/useNumberKeyboardWithForm'
 
 import foodPresetData from '@/constant/foodPresetData'
+
+import { displayFoodQtyAndUnit } from '@/helpers/utils'
 
 import type { Food } from '@/hooks/useDB'
 
@@ -149,8 +153,7 @@ const FoodForm: FC<FoodFormProps> = ({
               <option value="">--- Select ---</option>
               {foodPresetData.map((item) => (
                 <option key={item.id} value={item.id}>
-                  {item.name} {item.qty}
-                  {item.unit}
+                  {item.name} {displayFoodQtyAndUnit(item)}
                 </option>
               ))}
             </Select>
@@ -244,13 +247,8 @@ const FoodForm: FC<FoodFormProps> = ({
             <Input placeholder="0" readOnly />
           </Form.Item>
 
-          <Form.Item
-            name="multiplier"
-            label="Multiplier"
-            rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('multiplier')}
-          >
-            <Input placeholder="0" readOnly />
+          <Form.Item name="multiplier" label="Multiplier" rules={ruleForNumber}>
+            <StyledStepper min={0} step={1} digits={2} />
           </Form.Item>
         </Form>
       </Popup>
@@ -267,3 +265,8 @@ const FoodForm: FC<FoodFormProps> = ({
 }
 
 export default FoodForm
+
+const StyledStepper = styled(Stepper)`
+  width: 100px;
+  transform: scale(1.2);
+`

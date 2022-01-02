@@ -7,7 +7,7 @@ import numeral from 'numeral'
 
 import FoodForm from '@/components/FoodForm'
 
-import { NutrientValue } from '@/helpers/utils'
+import { nutrientValue, displayFoodQtyAndUnit } from '@/helpers/utils'
 
 import useDB from '@/hooks/useDB'
 
@@ -44,17 +44,17 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
     totalPro += pro ? pro * multiplier : 0
     totalFat += fat ? fat * multiplier : 0
 
-    const rowCarb = NutrientValue(carb, multiplier)
-    const rowPro = NutrientValue(pro, multiplier)
-    const rowFat = NutrientValue(fat, multiplier)
+    const rowCarb = nutrientValue(carb, multiplier)
+    const rowPro = nutrientValue(pro, multiplier)
+    const rowFat = nutrientValue(fat, multiplier)
 
     return (
       <tr key={id}>
         <td onClick={handleOnRowClick(food)}>
-          {name} {qty * multiplier}
-          {unit}
+          {name}{' '}
+          <span className="total-qty">{displayFoodQtyAndUnit(food)}</span>
         </td>
-        <td className="col-kcal">{NutrientValue(kcal, multiplier)}</td>
+        <td className="col-kcal">{nutrientValue(kcal, multiplier)}</td>
         <td className="col-carb">{rowCarb}</td>
         <td className="col-pro">{rowPro}</td>
         <td className="col-fat">{rowFat}</td>
@@ -81,13 +81,13 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
             <td style={{ color: 'brown' }}>Nutrients</td>
             <td></td>
             <td className="col-carb">
-              <span>{numeral(totalCarb).format(FORMAT)}</span>
+              <span className="total">{numeral(totalCarb).format(FORMAT)}</span>
             </td>
             <td className="col-pro">
-              <span>{numeral(totalPro).format(FORMAT)}</span>
+              <span className="total">{numeral(totalPro).format(FORMAT)}</span>
             </td>
             <td className="col-fat">
-              <span>{numeral(totalFat).format(FORMAT)}</span>
+              <span className="total">{numeral(totalFat).format(FORMAT)}</span>
             </td>
             <td></td>
           </tr>
@@ -163,10 +163,14 @@ const Table = styled.table`
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    > span {
+    > .total {
       color: steelblue;
       font-size: 17px;
       font-weight: bold;
+    }
+
+    > .total-qty {
+      color: blueviolet;
     }
 
     &.col-kcal {
