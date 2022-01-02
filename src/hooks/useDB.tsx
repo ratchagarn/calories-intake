@@ -5,6 +5,7 @@ import store from 'store'
 
 const key = {
   foods: 'foods',
+  settings: 'settings',
 }
 
 export const dbIsExists = () => store.get(key.foods) != null
@@ -20,11 +21,18 @@ export const createDB = () => {
 export interface Food {
   id: string
   name: string
+  qty: number
+  unit: string
   kcal: number
   carb: number
   pro: number
   fat: number
   multiplier: number
+  updatedAt?: number
+}
+
+export interface Settings {
+  numberKeyboardPreview: boolean
 }
 
 interface DBContextType {
@@ -32,14 +40,19 @@ interface DBContextType {
   addFood: (food: Food) => void
   updateFood: (newValue: Food) => void
   deleteFood: (id: string) => void
-  clearAllFoods: () => void
+  clearAllFoods: VoidFunction
   getTotalCaloriesIntake: () => number
+  settings: Settings
+  updateSettings: (newSettings: Settings) => void
 }
 
 const DBContext = createContext<DBContextType>(null!)
 
 export function DBProvider({ children }: { children: ReactNode }) {
   const [foods, setFoods] = useState<Food[]>(store.get(key.foods) || [])
+  const [settings, setSettings] = useState<Settings>(
+    store.get(key.settings) || {}
+  )
 
   const value = {
     foods,
@@ -51,7 +64,12 @@ export function DBProvider({ children }: { children: ReactNode }) {
     },
     updateFood: (newValue: Food) => {
       const updateFoods = foods.map((food) => {
-        return food.id === newValue.id ? newValue : food
+        return food.id === newValue.id
+          ? {
+              ...newValue,
+              updatedAt: new Date().getTime(),
+            }
+          : food
       })
 
       store.set(key.foods, updateFoods)
@@ -77,6 +95,17 @@ export function DBProvider({ children }: { children: ReactNode }) {
     clearAllFoods: () => {
       setFoods([])
       store.set(key.foods, [])
+    },
+
+    settings,
+    updateSettings: (newSettings: Settings) => {
+      const mergedSettings = {
+        ...settings,
+        ...newSettings,
+      }
+
+      store.set(key.foods, mergedSettings)
+      setSettings(mergedSettings)
     },
   }
 

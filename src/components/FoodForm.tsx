@@ -65,6 +65,8 @@ const FoodForm: FC<FoodFormProps> = ({
     form.setFieldsValue({
       id: selectedFood.id,
       name: selectedFood.name,
+      qty: selectedFood.qty,
+      unit: selectedFood.unit,
       kcal: selectedFood.kcal,
       carb: selectedFood.carb,
       pro: selectedFood.pro,
@@ -84,6 +86,8 @@ const FoodForm: FC<FoodFormProps> = ({
     onFinish?.({
       id: isUpdateMode ? initialValues.id : uuidv4(),
       name: values.name,
+      qty: values.qty,
+      unit: values.unit,
       kcal: Number(values.kcal),
       carb: Number(values.carb),
       pro: Number(values.pro),
@@ -143,7 +147,8 @@ const FoodForm: FC<FoodFormProps> = ({
               <option value="">--- Select ---</option>
               {foodPresetData.map((item) => (
                 <option key={item.id} value={item.id}>
-                  {item.name}
+                  {item.name} {item.qty}
+                  {item.unit}
                 </option>
               ))}
             </Select>
@@ -151,6 +156,28 @@ const FoodForm: FC<FoodFormProps> = ({
 
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>
             <Input placeholder="Please add food name..." />
+          </Form.Item>
+
+          <Form.Item
+            name="qty"
+            label="Quantity"
+            rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('qty')}
+          >
+            <Input placeholder="0" readOnly />
+          </Form.Item>
+
+          <Form.Item name="unit" label="Unit">
+            <Input placeholder="Food unit (example: g, ml)" />
+          </Form.Item>
+
+          <Form.Item
+            name="kcal"
+            label="KCAL"
+            rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('kcal')}
+          >
+            <Input placeholder="0" readOnly />
           </Form.Item>
 
           <Form.Item

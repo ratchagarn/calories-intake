@@ -35,7 +35,7 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
   }
 
   const foodRows = foods.map((food) => {
-    const { id, name, kcal, carb, pro, fat, multiplier } = food
+    const { id, name, qty, unit, kcal, carb, pro, fat, multiplier } = food
 
     const rowCarb = NutrientValue(carb, multiplier)
     const rowPro = NutrientValue(pro, multiplier)
@@ -47,7 +47,10 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
 
     return (
       <tr key={id}>
-        <td onClick={handleOnRowClick(food)}>{name}</td>
+        <td onClick={handleOnRowClick(food)}>
+          {name} {qty * multiplier}
+          {unit}
+        </td>
         <td className="col-kcal">{NutrientValue(kcal, multiplier)}</td>
         <td className="col-carb">{rowCarb}</td>
         <td className="col-pro">{rowPro}</td>
@@ -96,7 +99,7 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
       </Table>
 
       <FoodForm
-        key={formValues?.id}
+        key={`${formValues?.id}${formValues?.updatedAt}`}
         visible={foodFormVisible}
         initialValues={formValues}
         onFinish={(values) => {
