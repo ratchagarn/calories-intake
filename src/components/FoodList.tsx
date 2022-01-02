@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Toast } from 'antd-mobile'
 import styled from '@emotion/styled'
 import numeral from 'numeral'
+import dayjs from 'dayjs'
 
 import FoodForm from '@/components/FoodForm'
 
@@ -21,7 +22,7 @@ interface FoodListProps {
 }
 
 const FoodList: FC<FoodListProps> = ({ foods }) => {
-  const { updateFood, deleteFood } = useDB()
+  const { updateFood, deleteFood, latestUpdate } = useDB()
   const [foodFormVisible, setFoodFormVisible] = useState<boolean>(false)
   const [formValues, setFormValues] = useState<Food>()
 
@@ -100,6 +101,12 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
           {foodRows}
         </tbody>
       </Table>
+
+      {latestUpdate && (
+        <LatestUpdate>
+          Latest update: {dayjs(latestUpdate).format('YYYY-MM-DD HH:mm:ss')}
+        </LatestUpdate>
+      )}
 
       <FoodForm
         key={`${formValues?.id}${formValues?.updatedAt}`}
@@ -195,4 +202,10 @@ const Table = styled.table`
       font-weight: bold;
     }
   }
+`
+
+const LatestUpdate = styled.div`
+  margin-top: 16px;
+  color: #999;
+  text-align: center;
 `

@@ -24,6 +24,7 @@ export interface Settings {
 const key = {
   foods: 'foods',
   settings: 'settings',
+  latestUpdate: 'latestUpdate',
 }
 
 export const defaultSettings: Settings = {
@@ -36,6 +37,7 @@ export const dbIsExists = () =>
 export const createDB = () => {
   !store.get(key.foods) && store.set(key.foods, [])
   !store.get(key.settings) && store.set(key.settings, defaultSettings)
+  !store.get(key.latestUpdate) && store.set(key.latestUpdate, '')
 }
 
 interface DBContextType {
@@ -47,6 +49,7 @@ interface DBContextType {
   getTotalCaloriesIntake: () => number
   settings: Settings
   updateSettings: (newSettings: Settings) => void
+  latestUpdate: string
 }
 
 const DBContext = createContext<DBContextType>(null!)
@@ -56,6 +59,11 @@ export function DBProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<Settings>(
     store.get(key.settings) || {}
   )
+  const [latestUpdate, setLatestUpdate] = useState<string>('')
+
+  const getCurrentTime = () => dayjs().format()
+
+  const setNewLatestUpdate = () => setLatestUpdate(getCurrentTime())
 
   const value = {
     foods,
@@ -64,19 +72,21 @@ export function DBProvider({ children }: { children: ReactNode }) {
 
       store.set(key.foods, newFoods)
       setFoods(newFoods)
+      setNewLatestUpdate()
     },
     updateFood: (newValue: Food) => {
       const updateFoods = foods.map((food) => {
         return food.id === newValue.id
           ? {
               ...newValue,
-              updatedAt: dayjs().format(),
+              updatedAt: getCurrentTime(),
             }
           : food
       })
 
       store.set(key.foods, updateFoods)
       setFoods(updateFoods)
+      setNewLatestUpdate()
     },
     deleteFood: (id: string) => {
       const updateFoods = foods.filter((food) => {
@@ -85,6 +95,7 @@ export function DBProvider({ children }: { children: ReactNode }) {
 
       store.set(key.foods, updateFoods)
       setFoods(updateFoods)
+      setNewLatestUpdate()
     },
     getTotalCaloriesIntake: () => {
       let result = 0
@@ -96,8 +107,9 @@ export function DBProvider({ children }: { children: ReactNode }) {
       return result
     },
     clearAllFoods: () => {
-      setFoods([])
       store.set(key.foods, [])
+      setFoods([])
+      setLatestUpdate('')
     },
 
     settings,
@@ -105,6 +117,7 @@ export function DBProvider({ children }: { children: ReactNode }) {
       store.set(key.settings, newSettings)
       setSettings(newSettings)
     },
+    latestUpdate,
   }
 
   return <DBContext.Provider value={value}>{children}</DBContext.Provider>
