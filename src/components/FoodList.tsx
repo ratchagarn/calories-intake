@@ -3,6 +3,7 @@ import type { FC } from 'react'
 import { useState } from 'react'
 import { Toast } from 'antd-mobile'
 import styled from '@emotion/styled'
+import numeral from 'numeral'
 
 import FoodForm from '@/components/FoodForm'
 
@@ -11,6 +12,8 @@ import { NutrientValue } from '@/helpers/utils'
 import useDB from '@/hooks/useDB'
 
 import type { Food } from 'hooks/useDB'
+
+const FORMAT = '0,0'
 
 interface FoodListProps {
   foods: Food[]
@@ -37,13 +40,13 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
   const foodRows = foods.map((food) => {
     const { id, name, qty, unit, kcal, carb, pro, fat, multiplier } = food
 
+    totalCarb += carb ? carb * multiplier : 0
+    totalPro += pro ? pro * multiplier : 0
+    totalFat += fat ? fat * multiplier : 0
+
     const rowCarb = NutrientValue(carb, multiplier)
     const rowPro = NutrientValue(pro, multiplier)
     const rowFat = NutrientValue(fat, multiplier)
-
-    totalCarb += carb ? Number(rowCarb) : 0
-    totalPro += pro ? Number(rowPro) : 0
-    totalFat += fat ? Number(rowFat) : 0
 
     return (
       <tr key={id}>
@@ -78,13 +81,13 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
             <td style={{ color: 'brown' }}>Nutrients</td>
             <td></td>
             <td className="col-carb">
-              <span>{totalCarb}</span>
+              <span>{numeral(totalCarb).format(FORMAT)}</span>
             </td>
             <td className="col-pro">
-              <span>{totalPro}</span>
+              <span>{numeral(totalPro).format(FORMAT)}</span>
             </td>
             <td className="col-fat">
-              <span>{totalFat}</span>
+              <span>{numeral(totalFat).format(FORMAT)}</span>
             </td>
             <td></td>
           </tr>
