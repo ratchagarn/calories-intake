@@ -34,7 +34,9 @@ export const defaultSettings: Settings = {
 }
 
 export const dbIsExists = () =>
-  store.get(key.foods) != null && store.get(key.settings)
+  store.get(key.foods) != null &&
+  store.get(key.settings) != null &&
+  store.get(key.latestUpdate) != null
 
 export const createDB = () => {
   !store.get(key.foods) && store.set(key.foods, [])
@@ -62,11 +64,18 @@ export function DBProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<Settings>(
     store.get(key.settings) || {}
   )
-  const [latestUpdate, setLatestUpdate] = useState<string>('')
+  const [latestUpdate, setLatestUpdate] = useState<string>(
+    store.get(key.latestUpdate) || ''
+  )
 
   const getCurrentTime = () => dayjs().format()
 
-  const setNewLatestUpdate = () => setLatestUpdate(getCurrentTime())
+  const setNewLatestUpdate = () => {
+    const currentTime = getCurrentTime()
+
+    store.set(key.latestUpdate, currentTime)
+    setLatestUpdate(currentTime)
+  }
 
   const value = {
     foods,
