@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 
-import { Popup, List, Switch, Button, Toast, Dialog } from 'antd-mobile'
+import { Popup, List, Switch, Button, Toast, Dialog, Space } from 'antd-mobile'
 import styled from '@emotion/styled'
 
 import useDB from '@/hooks/useDB'
@@ -63,11 +63,22 @@ const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
         />
       </List>
 
-      <RestoreSettingsButtonContainer>
-        <Button color="primary" block onClick={handleOnRestoreSettingsClick}>
-          Restore Settings
-        </Button>
-      </RestoreSettingsButtonContainer>
+      <Space direction="vertical" block>
+        <RestoreSettingsButtonContainer>
+          <Button color="primary" block onClick={handleOnRestoreSettingsClick}>
+            Restore Settings
+          </Button>
+        </RestoreSettingsButtonContainer>
+        <GithHubLinkContainer>
+          <a
+            href="https://github.com/ratchagarn/calories-intake"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GITHUB
+          </a>
+        </GithHubLinkContainer>
+      </Space>
     </Popup>
   )
 }
@@ -78,4 +89,12 @@ const RestoreSettingsButtonContainer = styled.div`
   width: calc(100% - 16px);
   margin-top: 24px;
   padding: 8px;
+`
+
+const GithHubLinkContainer = styled.div`
+  text-align: center;
+
+  > a {
+    color: #333;
+  }
 `
