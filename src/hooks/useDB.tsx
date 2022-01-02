@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 
 import { createContext, useContext, useState } from 'react'
 import store from 'store'
+import dayjs from 'dayjs'
 
 export interface Food {
   id: string
@@ -13,7 +14,7 @@ export interface Food {
   pro: number
   fat: number
   multiplier: number
-  updatedAt?: number
+  updatedAt?: string
 }
 
 export interface Settings {
@@ -69,7 +70,7 @@ export function DBProvider({ children }: { children: ReactNode }) {
         return food.id === newValue.id
           ? {
               ...newValue,
-              updatedAt: new Date().getTime(),
+              updatedAt: dayjs().format(),
             }
           : food
       })
