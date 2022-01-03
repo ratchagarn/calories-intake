@@ -8,7 +8,6 @@ import {
   Dialog,
   Space,
   NumberKeyboard,
-  SafeArea,
 } from 'antd-mobile'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -122,7 +121,6 @@ const FoodForm: FC<FoodFormProps> = ({
           overflowY: 'scroll',
         }}
       >
-        <SafeArea position="top" />
         <PopupTitle title="Food Form" onClose={handleOnClose} />
 
         <Form
@@ -221,7 +219,6 @@ const FoodForm: FC<FoodFormProps> = ({
             <Input placeholder="0" readOnly />
           </Form.Item>
         </Form>
-        <SafeArea position="bottom" />
       </Popup>
 
       <NumberKeyboard

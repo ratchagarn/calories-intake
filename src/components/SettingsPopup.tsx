@@ -1,15 +1,6 @@
 import type { FC } from 'react'
 
-import {
-  Popup,
-  List,
-  Switch,
-  Button,
-  Toast,
-  Dialog,
-  Space,
-  SafeArea,
-} from 'antd-mobile'
+import { Popup, List, Switch, Button, Toast, Dialog, Space } from 'antd-mobile'
 import styled from '@emotion/styled'
 
 import useDB from '@/hooks/useDB'
@@ -50,7 +41,6 @@ const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
       onMaskClick={onClose}
       bodyStyle={{ height: '40vh', paddingBottom: 86, overflowY: 'scroll' }}
     >
-      <SafeArea position="top" />
       <PopupTitle title="Settings" onClose={onClose} />
       <List>
         <List.Item
@@ -89,7 +79,6 @@ const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
           </a>
         </GithHubLinkContainer>
       </Space>
-      <SafeArea position="bottom" />
     </Popup>
   )
 }
