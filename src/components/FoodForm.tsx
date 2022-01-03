@@ -118,8 +118,7 @@ const FoodForm: FC<FoodFormProps> = ({
         visible={visible}
         onMaskClick={handleOnClose}
         bodyStyle={{
-          minHeight: '100vh',
-          maxHeight: '-webkit-fill-available',
+          minHeight: window.innerHeight,
           overflowY: 'scroll',
         }}
       >
