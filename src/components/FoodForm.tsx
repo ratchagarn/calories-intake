@@ -8,6 +8,7 @@ import {
   Dialog,
   Space,
   NumberKeyboard,
+  SafeArea,
 } from 'antd-mobile'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -116,8 +117,13 @@ const FoodForm: FC<FoodFormProps> = ({
       <Popup
         visible={visible}
         onMaskClick={handleOnClose}
-        bodyStyle={{ height: '100vh', overflowY: 'scroll' }}
+        bodyStyle={{
+          minHeight: '100vh',
+          maxHeight: '-webkit-fill-available',
+          overflowY: 'scroll',
+        }}
       >
+        <SafeArea position="top" />
         <PopupTitle title="Food Form" onClose={handleOnClose} />
 
         <Form
@@ -216,6 +222,7 @@ const FoodForm: FC<FoodFormProps> = ({
             <Input placeholder="0" readOnly />
           </Form.Item>
         </Form>
+        <SafeArea position="bottom" />
       </Popup>
 
       <NumberKeyboard
