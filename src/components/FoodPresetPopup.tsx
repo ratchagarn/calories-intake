@@ -77,6 +77,7 @@ const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
           ))}
         </CheckList>
       </Content>
+      <BottomArea />
     </Popup>
   )
 }
@@ -97,6 +98,10 @@ const SearchBarWrapper = styled.div`
 `
 
 const Content = styled.div`
-  height: calc(${popupHeight}px - 45px - 46px);
+  height: calc(${popupHeight}px - 45px - 46px - 48px);
   overflow-y: scroll;
+`
+
+const BottomArea = styled.div`
+  height: 48px;
 `
