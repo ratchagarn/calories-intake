@@ -65,7 +65,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
 
       <Space direction="vertical" block>
         <RestoreSettingsButtonContainer>
-          <Button color="primary" block onClick={handleOnRestoreSettingsClick}>
+          <Button block onClick={handleOnRestoreSettingsClick}>
             Restore Settings
           </Button>
         </RestoreSettingsButtonContainer>
