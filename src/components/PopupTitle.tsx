@@ -1,5 +1,6 @@
 import type { FC, ReactNode } from 'react'
 
+import { NavBar } from 'antd-mobile'
 import { CloseOutline } from 'antd-mobile-icons'
 import styled from '@emotion/styled'
 
@@ -10,32 +11,22 @@ interface PopupTitleProps {
 
 const PopupTitle: FC<PopupTitleProps> = ({ title, onClose }) => {
   return (
-    <Header>
-      <h3>{title}</h3>
-      <CloseButton onClick={onClose}>
-        <CloseOutline />
-      </CloseButton>
-    </Header>
+    <NavBar
+      backArrow={false}
+      right={
+        <CloseButton onClick={onClose}>
+          <CloseOutline />
+        </CloseButton>
+      }
+    >
+      {title}
+    </NavBar>
   )
 }
 
 export default PopupTitle
 
-const Header = styled.div`
-  position: relative;
-  text-align: center;
-  padding: 8px 16px;
-
-  > h3 {
-    margin: 0;
-    font-size: 1.2em;
-  }
-`
-
 const CloseButton = styled.span`
-  position: absolute;
-  top: 8px;
-  right: 16px;
   font-size: 1.2em;
   cursor: pointer;
 `

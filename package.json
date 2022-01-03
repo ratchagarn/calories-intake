@@ -15,6 +15,7 @@
     "antd-mobile": "^5.0.0-rc.12",
     "antd-mobile-icons": "^0.2.2",
     "dayjs": "^1.10.7",
+    "escape-string-regexp": "^5.0.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.1.4",
     "numeral": "^2.0.6",

@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 
+import { useState } from 'react'
 import {
   Popup,
   Form,
@@ -12,13 +13,11 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 
 import PopupTitle from '@/components/PopupTitle'
-import Select from '@/components/Select'
+import FoodPresetPopup from '@/components/FoodPresetPopup'
 
 import useNumberKeyboardWithForm from '@/hooks/useNumberKeyboardWithForm'
 
 import foodPresetData from '@/constant/foodPresetData'
-
-import { displayFoodQtyAndUnit } from '@/helpers/utils'
 
 import type { Food } from '@/hooks/useDB'
 
@@ -45,6 +44,8 @@ const FoodForm: FC<FoodFormProps> = ({
   onDelete,
   onClose,
 }) => {
+  const [foodPresetVisible, setFoodPresetVisible] = useState<boolean>(false)
+
   const [form] = Form.useForm()
   const {
     numberKeyboardVisible,
@@ -55,7 +56,7 @@ const FoodForm: FC<FoodFormProps> = ({
   } = useNumberKeyboardWithForm(form)
   const isUpdateMode = initialValues != null
 
-  const handleOnSelectChange = (id: string) => {
+  const handleOnFoodPresetSubmit = (id: string) => {
     if (!id) {
       form.resetFields()
       return
@@ -74,6 +75,8 @@ const FoodForm: FC<FoodFormProps> = ({
       fat: selectedFood.fat,
       multiplier: selectedFood.multiplier,
     })
+
+    setFoodPresetVisible(false)
   }
 
   const handleOnClose = () => {
@@ -117,7 +120,7 @@ const FoodForm: FC<FoodFormProps> = ({
         visible={visible}
         onMaskClick={handleOnClose}
         bodyStyle={{
-          minHeight: window.innerHeight,
+          height: window.innerHeight,
           overflowY: 'scroll',
         }}
       >
@@ -147,14 +150,9 @@ const FoodForm: FC<FoodFormProps> = ({
           }
         >
           <Form.Item label="Preset">
-            <Select onChange={handleOnSelectChange}>
-              <option value="">--- Select ---</option>
-              {foodPresetData.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name} {displayFoodQtyAndUnit(item)}
-                </option>
-              ))}
-            </Select>
+            <Button size="mini" onClick={() => setFoodPresetVisible(true)}>
+              Select from preset
+            </Button>
           </Form.Item>
 
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>
@@ -220,6 +218,12 @@ const FoodForm: FC<FoodFormProps> = ({
           </Form.Item>
         </Form>
       </Popup>
+
+      <FoodPresetPopup
+        visible={foodPresetVisible}
+        onSubmit={handleOnFoodPresetSubmit}
+        onClose={() => setFoodPresetVisible(false)}
+      />
 
       <NumberKeyboard
         visible={numberKeyboardVisible}
