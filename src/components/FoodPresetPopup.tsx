@@ -48,7 +48,6 @@ const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
       onMaskClick={onClose}
       bodyStyle={{
         height: popupHeight,
-        overflowY: 'scroll',
       }}
     >
       <PopupTitle title="Select Food" onClose={onClose} />

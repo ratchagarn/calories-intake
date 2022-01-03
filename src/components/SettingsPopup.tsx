@@ -36,11 +36,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
   }
 
   return (
-    <Popup
-      visible={visible}
-      onMaskClick={onClose}
-      bodyStyle={{ height: '40vh', paddingBottom: 86, overflowY: 'scroll' }}
-    >
+    <Popup visible={visible} onMaskClick={onClose} bodyStyle={{ height: 300 }}>
       <PopupTitle title="Settings" onClose={onClose} />
       <List>
         <List.Item
