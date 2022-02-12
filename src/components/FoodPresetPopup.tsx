@@ -47,7 +47,7 @@ const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
       visible={visible}
       onMaskClick={onClose}
       bodyStyle={{
-        height: popupHeight,
+        height: popupHeight - 45,
       }}
     >
       <PopupTitle title="Select Food" onClose={onClose} />
@@ -58,6 +58,7 @@ const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
           size="small"
           color="primary"
           onClick={() => onSubmit?.(selectedValue)}
+          disabled={!selectedValue}
         >
           OK
         </Button>
