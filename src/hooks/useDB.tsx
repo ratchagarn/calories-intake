@@ -9,10 +9,10 @@ export interface Food {
   name: string
   qty: number
   unit: string
-  kcal: number
   carb: number
   pro: number
   fat: number
+  kcal: number
   multiplier: number
   updatedAt?: string
 }

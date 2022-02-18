@@ -3,324 +3,360 @@
     "name": "ข้าว",
     "qty": 100,
     "unit": "g",
-    "kcal": 120,
     "carb": 28,
     "pro": 2,
-    "fat": 0
+    "fat": 0,
+    "kcal": 120
   },
   {
     "name": "ข้าวเหนียว",
     "qty": 100,
     "unit": "g",
-    "kcal": 92,
     "carb": 21,
     "pro": 2,
-    "fat": 0
+    "fat": 0,
+    "kcal": 92
   },
   {
     "name": "เส้นเล็กลวก",
     "qty": 100,
     "unit": "g",
-    "kcal": 104,
     "carb": 24,
     "pro": 2,
-    "fat": 0
+    "fat": 0,
+    "kcal": 104
   },
   {
     "name": "เส้นใหญ่ลวก",
     "qty": 100,
     "unit": "g",
-    "kcal": 133,
     "carb": 29,
     "pro": 2,
-    "fat": 1
+    "fat": 1,
+    "kcal": 133
   },
   {
     "name": "บะหมี่ไข่",
     "qty": 100,
     "unit": "g",
-    "kcal": 389,
     "carb": 72,
     "pro": 14,
-    "fat": 5
+    "fat": 5,
+    "kcal": 389
   },
   {
     "name": "แป้งทอดกรอบ",
     "qty": 100,
     "unit": "g",
-    "kcal": 292,
     "carb": 73,
     "pro": 0,
-    "fat": 0
+    "fat": 0,
+    "kcal": 292
   },
   {
     "name": "ขนมปัง",
     "qty": 2,
     "unit": "แผ่น",
-    "kcal": 134,
     "carb": 24,
     "pro": 5,
-    "fat": 2
+    "fat": 2,
+    "kcal": 134
   },
   {
     "name": "เส้นจันท์ แห้ง",
     "qty": 100,
     "unit": "g",
-    "kcal": 344,
     "carb": 81,
     "pro": 5,
-    "fat": 0
+    "fat": 0,
+    "kcal": 344
   },
   {
     "name": "ข้าวโพดอ่อน",
     "qty": 100,
     "unit": "g",
-    "kcal": 101,
     "carb": 21,
     "pro": 2,
-    "fat": 1
+    "fat": 1,
+    "kcal": 101
   },
   {
     "name": "ไข่",
     "qty": 1,
     "unit": "ฟอง",
-    "kcal": 82,
     "carb": 0,
     "pro": 7,
-    "fat": 6
+    "fat": 6,
+    "kcal": 82
   },
   {
     "name": "อกไก่ ไม่มีหนัง",
     "qty": 100,
     "unit": "g",
-    "kcal": 101,
     "carb": 0,
     "pro": 23,
-    "fat": 1
+    "fat": 1,
+    "kcal": 101
   },
   {
     "name": "สันในไก่",
     "qty": 100,
     "unit": "g",
-    "kcal": 101,
     "carb": 0,
     "pro": 23,
-    "fat": 1
+    "fat": 1,
+    "kcal": 101
   },
   {
     "name": "น่องไก่",
     "qty": 100,
     "unit": "g",
-    "kcal": 112,
     "carb": 1,
     "pro": 18,
-    "fat": 4
+    "fat": 4,
+    "kcal": 112
   },
   {
     "name": "สะโพกไก่",
     "qty": 100,
     "unit": "g",
-    "kcal": 148,
     "carb": 1,
     "pro": 18,
-    "fat": 8
+    "fat": 8,
+    "kcal": 148
   },
   {
     "name": "ปีกบนไก่ (น่องเล็ก)",
     "qty": 100,
     "unit": "g",
-    "kcal": 130,
     "carb": 1,
     "pro": 18,
-    "fat": 6
+    "fat": 6,
+    "kcal": 130
   },
   {
     "name": "ปีกไก่",
     "qty": 100,
     "unit": "g",
-    "kcal": 185,
     "carb": 0,
     "pro": 17,
-    "fat": 13
+    "fat": 13,
+    "kcal": 185
   },
   {
     "name": "เนื้อวัว",
     "qty": 100,
     "unit": "g",
-    "kcal": 133,
     "carb": 2,
     "pro": 20,
-    "fat": 5
+    "fat": 5,
+    "kcal": 133
   },
   {
     "name": "กุ้ง",
     "qty": 100,
     "unit": "g",
-    "kcal": 96,
     "carb": 0,
     "pro": 24,
-    "fat": 0
+    "fat": 0,
+    "kcal": 96
   },
   {
     "name": "ปลาหมึก",
     "qty": 100,
     "unit": "g",
-    "kcal": 81,
     "carb": 3,
     "pro": 15,
-    "fat": 1
+    "fat": 1,
+    "kcal": 81
   },
   {
     "name": "ปลาหมึกแห้ง",
     "qty": 10,
     "unit": "g",
-    "kcal": 32,
     "carb": 0,
     "pro": 8,
-    "fat": 0
+    "fat": 0,
+    "kcal": 32
   },
   {
     "name": "ตับหมู",
     "qty": 100,
     "unit": "g",
-    "kcal": 119,
     "carb": 2,
     "pro": 21,
-    "fat": 3
+    "fat": 3,
+    "kcal": 119
   },
   {
     "name": "หมูแดง",
     "qty": 100,
     "unit": "g",
-    "kcal": 180,
     "carb": 4,
     "pro": 32,
-    "fat": 4
+    "fat": 4,
+    "kcal": 180
   },
   {
     "name": "หมูสันนอก",
     "qty": 100,
     "unit": "g",
-    "kcal": 110,
     "carb": 0,
     "pro": 23,
-    "fat": 2
+    "fat": 2,
+    "kcal": 110
   },
   {
     "name": "หมูสันคอ",
     "qty": 100,
     "unit": "g",
-    "kcal": 189,
     "carb": 0,
     "pro": 18,
-    "fat": 13
+    "fat": 13,
+    "kcal": 189
   },
   {
     "name": "สามชั้นสไลด์",
     "qty": 100,
     "unit": "g",
-    "kcal": 256,
     "carb": 0,
     "pro": 19,
-    "fat": 20
+    "fat": 20,
+    "kcal": 256
   },
   {
     "name": "กุ้งแห้ง",
     "qty": 100,
     "unit": "g",
-    "kcal": 231,
     "carb": 0,
     "pro": 51,
-    "fat": 3
+    "fat": 3,
+    "kcal": 231
+  },
+  {
+    "name": "เลือดไก่, หมู",
+    "qty": 100,
+    "unit": "g",
+    "carb": 0,
+    "pro": 9,
+    "fat": 0,
+    "kcal": 36
   },
   {
     "name": "เต้าหู้แข็ง",
     "qty": 100,
     "unit": "g",
-    "kcal": 161,
     "carb": 4,
     "pro": 16,
-    "fat": 9
+    "fat": 9,
+    "kcal": 161
   },
   {
     "name": "น้ำมัน",
     "qty": 15,
     "unit": "ml",
-    "kcal": 126,
     "carb": 0,
     "pro": 0,
-    "fat": 14
+    "fat": 14,
+    "kcal": 126
   },
   {
     "name": "เนยเค็ม",
     "qty": 100,
     "unit": "g",
-    "kcal": 729,
     "carb": 0,
     "pro": 0,
-    "fat": 81
+    "fat": 81,
+    "kcal": 729
   },
   {
     "name": "กากหมูเจียว",
     "qty": 100,
     "unit": "g",
-    "kcal": 630,
     "carb": 0,
     "pro": 45,
-    "fat": 50
+    "fat": 50,
+    "kcal": 630
   },
   {
     "name": "ชีส",
     "qty": 21,
     "unit": "g",
-    "kcal": 65,
     "carb": 1,
     "pro": 4,
-    "fat": 5
+    "fat": 5,
+    "kcal": 65
   },
   {
     "name": "ถั่วลิสง",
     "qty": 100,
     "unit": "g",
-    "kcal": 640,
     "carb": 15,
     "pro": 28,
-    "fat": 52
+    "fat": 52,
+    "kcal": 640
   },
   {
     "name": "กุนเชียง",
     "qty": 20,
     "unit": "g",
-    "kcal": 86,
     "carb": 3,
     "pro": 5,
-    "fat": 6
+    "fat": 6,
+    "kcal": 86
   },
   {
     "name": "ไวตามิลค์ ไม่หวาน",
     "qty": 100,
     "unit": "ml",
-    "kcal": 47,
     "carb": 2,
     "pro": 3,
-    "fat": 3
+    "fat": 3,
+    "kcal": 47
   },
   {
     "name": "ซอสมะเขือเทศ",
     "qty": 15,
     "unit": "ml",
-    "kcal": 16,
     "carb": 4,
     "pro": 0,
-    "fat": 0
+    "fat": 0,
+    "kcal": 16
   },
   {
     "name": "เวย์ ISO PRO",
     "qty": 34,
     "unit": "g",
-    "kcal": 112,
     "carb": 1,
     "pro": 27,
-    "fat": 0
+    "fat": 0,
+    "kcal": 112
+  },
+  {
+    "name": "แซนวิชแฮมชีส",
+    "qty": 1,
+    "unit": "pack",
+    "carb": 19,
+    "pro": 10,
+    "fat": 13,
+    "kcal": 233
+  },
+  {
+    "name": "แซนวิชไส้กรอกชีส",
+    "qty": 1,
+    "unit": "pack",
+    "carb": 18,
+    "pro": 12,
+    "fat": 19,
+    "kcal": 291
+  },
+  {
+    "name": "ทอดมันปลากราย",
+    "qty": 100,
+    "unit": "g",
+    "carb": 8,
+    "pro": 14,
+    "fat": 16,
+    "kcal": 232
   }
 ]
