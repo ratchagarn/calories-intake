@@ -8,7 +8,9 @@ import { dbIsExists, createDB } from '@/hooks/useDB'
 
 import foodPresetData from '@/constant/foodPresetData'
 
-export default function withSetup<T>(Component: ComponentType<T>) {
+export default function withSetup<T extends object>(
+  Component: ComponentType<T>
+) {
   return (hocProps: T) => {
     const [isReady, setIsReady] = useState<boolean>(false)
 
