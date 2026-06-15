@@ -62,7 +62,12 @@ const FoodForm: FC<FoodFormProps> = ({
       return
     }
 
-    const selectedFood = foodPresetData.find((item) => item.id === id) as Food
+    const selectedFood = foodPresetData.find((item) => item.id === id)
+
+    if (!selectedFood) {
+      alert('Food data not found!')
+      return
+    }
 
     form.setFieldsValue({
       id: selectedFood.id,

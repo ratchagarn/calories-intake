@@ -72,7 +72,17 @@ const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
         >
           {data.map((food) => (
             <CheckList.Item key={food.id} value={food.id}>
-              {food.name} {displayFoodQtyAndUnit(food)}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                }}
+              >
+                {food.name}
+                <span style={{ color: 'blueviolet', fontSize: '0.8em' }}>
+                  {displayFoodQtyAndUnit(food)}
+                </span>
+              </div>
             </CheckList.Item>
           ))}
         </CheckList>
@@ -100,6 +110,10 @@ const SearchBarWrapper = styled.div`
 const Content = styled.div`
   height: calc(${popupHeight}px - 45px - 46px - 48px);
   overflow-y: scroll;
+
+  .adm-list-item-content-extra {
+    min-width: 28px;
+  }
 `
 
 const BottomArea = styled.div`
