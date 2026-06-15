@@ -6,7 +6,7 @@ import styled from '@emotion/styled'
 
 import { dbIsExists, createDB } from '@/hooks/useDB'
 
-import foodPresetData from '@/constant/foodPresetData'
+import { foodPresetData } from '@/constant/foodPresetData'
 
 export default function withSetup<T extends object>(
   Component: ComponentType<T>

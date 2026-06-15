@@ -8,6 +8,7 @@ export interface Food {
   id: string
   name: string
   qty: number
+  state: 'RAW' | 'COOKED'
   unit: string
   carb: number
   pro: number

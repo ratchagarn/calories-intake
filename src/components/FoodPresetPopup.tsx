@@ -9,7 +9,7 @@ import PopupTitle from '@/components/PopupTitle'
 
 import { displayFoodQtyAndUnit } from '@/helpers/utils'
 
-import foodPresetData from '@/constant/foodPresetData'
+import { foodPresetData } from '@/constant/foodPresetData'
 
 import type { Food } from '@/hooks/useDB'
 
@@ -78,7 +78,12 @@ const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
                   justifyContent: 'space-between',
                 }}
               >
-                {food.name}
+                <span>
+                  {food.name}{' '}
+                  <span style={{ color: 'orange', fontSize: '0.6em' }}>
+                    ({food.state})
+                  </span>
+                </span>
                 <span style={{ color: 'blueviolet', fontSize: '0.8em' }}>
                   {displayFoodQtyAndUnit(food)}
                 </span>

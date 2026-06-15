@@ -17,7 +17,7 @@ import FoodPresetPopup from '@/components/FoodPresetPopup'
 
 import useNumberKeyboardWithForm from '@/hooks/useNumberKeyboardWithForm'
 
-import foodPresetData from '@/constant/foodPresetData'
+import { foodPresetData } from '@/constant/foodPresetData'
 
 import type { Food } from '@/hooks/useDB'
 
@@ -32,7 +32,7 @@ const ruleForNumber = [
 interface FoodFormProps {
   visible?: boolean
   initialValues?: Food
-  onFinish?: (values: Food) => void
+  onFinish?: (values: Omit<Food, 'state'>) => void
   onDelete?: (id: string) => void
   onClose?: VoidFunction
 }
