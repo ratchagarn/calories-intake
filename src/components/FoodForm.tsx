@@ -13,11 +13,11 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 
 import PopupTitle from '@/components/PopupTitle'
-import FoodPresetPopup from '@/components/FoodPresetPopup'
+import { FoodPresetPopup } from '@/components/food-preset-popup'
 
 import useNumberKeyboardWithForm from '@/hooks/useNumberKeyboardWithForm'
 
-import { foodPresetData } from '@/constant/foodPresetData'
+import { FoodPreset, foodPresetData } from '@/constant/foodPresetData'
 
 import type { Food } from '@/hooks/useDB'
 
@@ -32,7 +32,7 @@ const ruleForNumber = [
 interface FoodFormProps {
   visible?: boolean
   initialValues?: Food
-  onFinish?: (values: Omit<Food, 'state'>) => void
+  onFinish?: (values: FoodPreset) => void
   onDelete?: (id: string) => void
   onClose?: VoidFunction
 }
@@ -102,6 +102,7 @@ const FoodForm: FC<FoodFormProps> = ({
       pro: Number(values.pro),
       fat: Number(values.fat),
       multiplier: Number(values.multiplier),
+      state: values.state,
     })
 
     handleOnClose()
@@ -174,6 +175,10 @@ const FoodForm: FC<FoodFormProps> = ({
           </Form.Item>
 
           <Form.Item name="unit" label="Unit" rules={[{ required: true }]}>
+            <Input placeholder="Food unit (example: g, ml)" />
+          </Form.Item>
+
+          <Form.Item name="state" label="State" rules={[{ required: true }]}>
             <Input placeholder="Food unit (example: g, ml)" />
           </Form.Item>
 

@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { foodDatabase } from './foodDatabase'
 
-interface FoodPreset extends Food {
+export interface FoodPreset extends Food {
   id: string
   multiplier: number
 }
@@ -13,10 +13,12 @@ export const foodPresetData: FoodPreset[] = foodDatabase.map((food) => ({
   multiplier: 1,
 }))
 
+export type FoodState = 'RAW' | 'COOKED'
+
 export interface Food {
   name: string
   qty: number
-  state: 'RAW' | 'COOKED'
+  state: FoodState
   unit: string
   carb: number
   pro: number

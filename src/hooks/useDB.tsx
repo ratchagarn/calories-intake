@@ -3,18 +3,9 @@ import type { ReactNode } from 'react'
 import { createContext, useContext, useState } from 'react'
 import store from 'store'
 import dayjs from 'dayjs'
+import { FoodPreset } from '@/constant/foodPresetData'
 
-export interface Food {
-  id: string
-  name: string
-  qty: number
-  state: 'RAW' | 'COOKED'
-  unit: string
-  carb: number
-  pro: number
-  fat: number
-  kcal: number
-  multiplier: number
+export interface FoodDB extends FoodPreset {
   updatedAt?: string
 }
 
@@ -46,9 +37,9 @@ export const createDB = () => {
 }
 
 interface DBContextType {
-  foods: Food[]
-  addFood: (food: Food) => void
-  updateFood: (newValue: Food) => void
+  foods: FoodDB[]
+  addFood: (food: FoodDB) => void
+  updateFood: (newValue: FoodDB) => void
   deleteFood: (id: string) => void
   clearAllFoods: VoidFunction
   getTotalCaloriesIntake: () => number
@@ -61,7 +52,7 @@ interface DBContextType {
 const DBContext = createContext<DBContextType>(null!)
 
 export function DBProvider({ children }: { children: ReactNode }) {
-  const [foods, setFoods] = useState<Food[]>(store.get(key.foods) || [])
+  const [foods, setFoods] = useState<FoodDB[]>(store.get(key.foods) || [])
   const [settings, setSettings] = useState<Settings>(
     store.get(key.settings) || {}
   )
@@ -80,14 +71,14 @@ export function DBProvider({ children }: { children: ReactNode }) {
 
   const value = {
     foods,
-    addFood: (food: Food) => {
+    addFood: (food: FoodDB) => {
       const newFoods = foods.concat([food])
 
       store.set(key.foods, newFoods)
       setFoods(newFoods)
       setNewLatestUpdate()
     },
-    updateFood: (newValue: Food) => {
+    updateFood: (newValue: FoodDB) => {
       const updateFoods = foods.map((food) => {
         return food.id === newValue.id
           ? {

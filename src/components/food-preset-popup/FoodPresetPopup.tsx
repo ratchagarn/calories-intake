@@ -1,17 +1,14 @@
-import type { FC } from 'react'
-
-import { useState } from 'react'
+import { useEffect, useMemo, useState, type FC } from 'react'
 import { Popup, SearchBar, Button, CheckList } from 'antd-mobile'
 import escapeStringRegexp from 'escape-string-regexp'
 import styled from '@emotion/styled'
+import debounce from 'lodash/debounce'
 
 import PopupTitle from '@/components/PopupTitle'
 
-import { displayFoodQtyAndUnit } from '@/helpers/utils'
+import { foodPresetData, type FoodPreset } from '@/constant/foodPresetData'
 
-import { foodPresetData } from '@/constant/foodPresetData'
-
-import type { Food } from '@/hooks/useDB'
+import { FoodItem } from './FoodItem'
 
 const popupHeight = window.innerHeight
 
@@ -21,26 +18,44 @@ interface FoodPresetPopupProps {
   onClose?: VoidFunction
 }
 
-const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
+export const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
   visible,
   onSubmit,
   onClose,
 }) => {
-  const [data, setData] = useState<Food[]>(foodPresetData)
+  const [data, setData] = useState<FoodPreset[]>(foodPresetData)
   const [selectedValue, setSelectedValue] = useState<string>('')
 
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((keyword: string) => {
+        const lowerKeyword = keyword.toLowerCase()
+        const pattern = new RegExp(escapeStringRegexp(lowerKeyword))
+
+        const result = foodPresetData.filter((item) =>
+          pattern.test(item.name.toLowerCase())
+        )
+
+        setData(result)
+      }, 50),
+    []
+  )
+
   const handleOnSearchChange = (keyword: string) => {
-    if (keyword === '') {
+    if (keyword.length < 2) {
+      debouncedSearch.cancel()
       setData(foodPresetData)
       return
     }
 
-    const pattern = new RegExp(escapeStringRegexp(keyword))
-
-    const result = data.filter((item) => pattern.test(item.name.toLowerCase()))
-
-    setData(result)
+    debouncedSearch(keyword)
   }
+
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel()
+    }
+  }, [debouncedSearch])
 
   return (
     <Popup
@@ -71,24 +86,7 @@ const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
           }}
         >
           {data.map((food) => (
-            <CheckList.Item key={food.id} value={food.id}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <span>
-                  {food.name}{' '}
-                  <span style={{ color: 'orange', fontSize: '0.6em' }}>
-                    ({food.state})
-                  </span>
-                </span>
-                <span style={{ color: 'blueviolet', fontSize: '0.8em' }}>
-                  {displayFoodQtyAndUnit(food)}
-                </span>
-              </div>
-            </CheckList.Item>
+            <FoodItem key={food.id} food={food} />
           ))}
         </CheckList>
       </Content>
@@ -96,8 +94,6 @@ const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
     </Popup>
   )
 }
-
-export default FoodPresetPopup
 
 const SearchBarWrapper = styled.div`
   display: flex;
