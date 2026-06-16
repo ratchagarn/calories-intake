@@ -13,7 +13,7 @@ export const foodPresetData: FoodPreset[] = foodDatabase.map((food) => ({
   multiplier: 1,
 }))
 
-export type FoodState = 'RAW' | 'COOKED'
+export type FoodState = 'RAW' | 'COOKED' | 'UNKNOWN'
 
 export interface Food {
   name: string

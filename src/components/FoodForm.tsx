@@ -15,11 +15,13 @@ import { v4 as uuidv4 } from 'uuid'
 import PopupTitle from '@/components/PopupTitle'
 import { FoodPresetPopup } from '@/components/food-preset-popup'
 
+import { calculateKCAL } from '@/helpers/utils'
+
 import useNumberKeyboardWithForm from '@/hooks/useNumberKeyboardWithForm'
 
 import { FoodPreset, foodPresetData } from '@/constant/foodPresetData'
 
-import type { Food } from '@/hooks/useDB'
+import type { FoodDB } from '@/hooks/useDB'
 
 const ruleForNumber = [
   { required: true },
@@ -31,7 +33,7 @@ const ruleForNumber = [
 
 interface FoodFormProps {
   visible?: boolean
-  initialValues?: Food
+  initialValues?: FoodDB
   onFinish?: (values: FoodPreset) => void
   onDelete?: (id: string) => void
   onClose?: VoidFunction
@@ -46,10 +48,9 @@ const FoodForm: FC<FoodFormProps> = ({
 }) => {
   const [foodPresetVisible, setFoodPresetVisible] = useState<boolean>(false)
 
-  const [form] = Form.useForm()
+  const [form] = Form.useForm<FoodDB>()
   const {
     numberKeyboardVisible,
-    onOpenNumberKeyboard,
     onNumberKeyboardInput,
     onNumberKeyboardDelete,
     onNumberKeyboardClose,
@@ -91,7 +92,7 @@ const FoodForm: FC<FoodFormProps> = ({
     form.resetFields()
   }
 
-  const handleOnFinshed = (values: Food) => {
+  const handleOnFinshed = (values: FoodDB) => {
     onFinish?.({
       id: isUpdateMode ? initialValues.id : uuidv4(),
       name: values.name,
@@ -102,7 +103,8 @@ const FoodForm: FC<FoodFormProps> = ({
       pro: Number(values.pro),
       fat: Number(values.fat),
       multiplier: Number(values.multiplier),
-      state: values.state,
+      // NOTES: Should I need food state for the form?
+      state: values.state ?? 'UNKNOWN',
     })
 
     handleOnClose()
@@ -156,75 +158,69 @@ const FoodForm: FC<FoodFormProps> = ({
           }
         >
           <Form.Item label="Preset">
-            <Button size="mini" onClick={() => setFoodPresetVisible(true)}>
+            <Button
+              size="mini"
+              fill="outline"
+              color="primary"
+              onClick={() => setFoodPresetVisible(true)}
+            >
               Select from preset
             </Button>
           </Form.Item>
 
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-            <Input placeholder="Please add food name..." />
+            <Input placeholder="Food name..." />
           </Form.Item>
 
-          <Form.Item
-            name="qty"
-            label="Quantity"
-            rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('qty')}
-          >
-            <Input placeholder="0" readOnly />
+          <Form.Item name="qty" label="Quantity" rules={ruleForNumber}>
+            <Input placeholder="0" />
           </Form.Item>
 
           <Form.Item name="unit" label="Unit" rules={[{ required: true }]}>
-            <Input placeholder="Food unit (example: g, ml)" />
+            <Input placeholder="Example: g, ml" />
           </Form.Item>
 
-          <Form.Item name="state" label="State" rules={[{ required: true }]}>
-            <Input placeholder="Food unit (example: g, ml)" />
+          <Form.Item name="carb" label="CARB" rules={ruleForNumber}>
+            <Input placeholder="0" pattern="[0-9]*" />
+          </Form.Item>
+
+          <Form.Item name="pro" label="PRO" rules={ruleForNumber}>
+            <Input placeholder="0" pattern="[0-9]*" />
+          </Form.Item>
+
+          <Form.Item name="fat" label="FAT" rules={ruleForNumber}>
+            <Input placeholder="0" pattern="[0-9]*" />
           </Form.Item>
 
           <Form.Item
             name="kcal"
             label="KCAL"
             rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('kcal')}
-          >
-            <Input placeholder="0" readOnly />
-          </Form.Item>
+            extra={
+              <AutoButton
+                onClick={() => {
+                  const { carb, pro, fat } = form.getFieldsValue()
+                  const kcal = calculateKCAL({
+                    carb,
+                    pro,
+                    fat,
+                  })
 
-          <Form.Item
-            name="carb"
-            label="CARB"
-            rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('carb')}
+                  form.setFieldsValue({ kcal })
+                }}
+              />
+            }
           >
-            <Input placeholder="0" readOnly />
-          </Form.Item>
-
-          <Form.Item
-            name="pro"
-            label="PRO"
-            rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('pro')}
-          >
-            <Input placeholder="0" readOnly />
-          </Form.Item>
-
-          <Form.Item
-            name="fat"
-            label="FAT"
-            rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('fat')}
-          >
-            <Input placeholder="0" readOnly />
+            <Input placeholder="0" pattern="[0-9]*" />
           </Form.Item>
 
           <Form.Item
             name="multiplier"
             label="Multiplier"
             rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('multiplier')}
+            initialValue={1}
           >
-            <Input placeholder="0" readOnly />
+            <Input placeholder="0" />
           </Form.Item>
         </Form>
       </Popup>
@@ -247,3 +243,23 @@ const FoodForm: FC<FoodFormProps> = ({
 }
 
 export default FoodForm
+
+function AutoButton({
+  onClick,
+}: {
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+}) {
+  return (
+    <Button
+      size="small"
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
+
+        onClick(e)
+      }}
+    >
+      Auto
+    </Button>
+  )
+}
