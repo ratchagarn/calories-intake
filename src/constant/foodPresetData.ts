@@ -52,3 +52,39 @@ export function f(
     kcal: parseInt(kcalStr, 10),
   }
 }
+
+/**
+ * แปลงข้อมูล Food และสั่ง Download เป็นไฟล์ JSON
+ * @param data Array ของข้อมูล Food ที่ต้องการ export
+ * @param fileName ชื่อไฟล์ที่ต้องการ (ไม่ต้องใส่ .json)
+ */
+export const exportFoodsToJSON = (
+  data: Food[],
+  fileName: string = 'food-export'
+): void => {
+  try {
+    // 1. แปลง Object เป็น JSON String (ใส่ space 2 ช่องเพื่อให้อ่านง่ายเมื่อเปิดดูไฟล์)
+    const jsonString = JSON.stringify(data, null, 2)
+
+    // 2. สร้าง Blob Object กำหนด Type เป็น application/json
+    const blob = new Blob([jsonString], { type: 'application/json' })
+
+    // 3. สร้าง Object URL ชั่วคราวจาก Blob
+    const url = URL.createObjectURL(blob)
+
+    // 4. สร้าง <a> element จำลองขึ้นมาเพื่อใช้ trigger ดาวน์โหลด
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${fileName}.json`
+
+    // 5. Append เข้า DOM ชั่วคราว, สั่ง Click และลบออกทันที
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+
+    // 6. เคลียร์ Object URL ออกจากหน่วยความจำเพื่อป้องกัน Memory Leak
+    URL.revokeObjectURL(url)
+  } catch (error) {
+    console.error('Failed to export food data to JSON:', error)
+  }
+}

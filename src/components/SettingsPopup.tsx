@@ -6,6 +6,7 @@ import styled from '@emotion/styled'
 import useDB from '@/hooks/useDB'
 
 import PopupTitle from '@/components/PopupTitle'
+import { foodPresetData, exportFoodsToJSON } from '@/constant/foodPresetData'
 
 interface SettingsPopupProps {
   visible?: boolean
@@ -36,7 +37,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
   }
 
   return (
-    <Popup visible={visible} onMaskClick={onClose} bodyStyle={{ height: 300 }}>
+    <Popup visible={visible} onMaskClick={onClose} bodyStyle={{ height: 340 }}>
       <PopupTitle title="Settings" onClose={onClose} />
       <List>
         <List.Item
@@ -60,11 +61,18 @@ const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
       </List>
 
       <Space direction="vertical" block>
-        <RestoreSettingsButtonContainer>
-          <Button block onClick={handleOnRestoreSettingsClick}>
+        <SettingsButtonContainer>
+          <Button color="danger" block onClick={handleOnRestoreSettingsClick}>
             Restore Settings
           </Button>
-        </RestoreSettingsButtonContainer>
+          <Button
+            color="success"
+            block
+            onClick={() => exportFoodsToJSON(foodPresetData)}
+          >
+            Export Food Data
+          </Button>
+        </SettingsButtonContainer>
         <GithHubLinkContainer>
           <a
             href="https://github.com/ratchagarn/calories-intake"
@@ -81,7 +89,10 @@ const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
 
 export default SettingsPopup
 
-const RestoreSettingsButtonContainer = styled.div`
+const SettingsButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   width: calc(100% - 16px);
   margin-top: 24px;
   padding: 8px;
