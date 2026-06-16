@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useState, type FC } from 'react'
+import { useEffect, useMemo, useState, FC } from 'react'
 import { Popup, SearchBar, Button, CheckList } from 'antd-mobile'
 import escapeStringRegexp from 'escape-string-regexp'
 import styled from '@emotion/styled'
-import debounce from 'lodash/debounce'
+import { debounce } from '@/helpers/debounce'
 
 import PopupTitle from '@/components/PopupTitle'
 
-import { foodPresetData, type FoodPreset } from '@/constant/foodPresetData'
+import { foodPresetData, FoodPreset } from '@/constant/foodPresetData'
 
 import { FoodItem } from './FoodItem'
 
@@ -37,7 +37,7 @@ export const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
         )
 
         setData(result)
-      }, 50),
+      }, 150),
     []
   )
 

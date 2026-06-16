@@ -1,4 +1,4 @@
-import { f, type Food } from './foodPresetData'
+import { f, Food } from './foodPresetData'
 
 export const { RAW, COOKED } = { RAW: 'RAW', COOKED: 'COOKED' } as const
 

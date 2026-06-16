@@ -12,25 +12,25 @@ import { nutrientValue, displayFoodQtyAndUnit } from '@/helpers/utils'
 
 import useDB from '@/hooks/useDB'
 
-import type { Food } from 'hooks/useDB'
+import type { FoodDB } from 'hooks/useDB'
 
 const FORMAT = '0,0'
 
 interface FoodListProps {
-  foods: Food[]
-  onUpdate?: (values: Food) => void
+  foods: FoodDB[]
+  onUpdate?: (values: FoodDB) => void
 }
 
 const FoodList: FC<FoodListProps> = ({ foods }) => {
   const { updateFood, deleteFood, latestUpdate, settings } = useDB()
   const [foodFormVisible, setFoodFormVisible] = useState<boolean>(false)
-  const [formValues, setFormValues] = useState<Food>()
+  const [formValues, setFormValues] = useState<FoodDB>()
 
   let totalCarb = 0
   let totalPro = 0
   let totalFat = 0
 
-  const handleOnRowClick = (values: Food) => () => {
+  const handleOnRowClick = (values: FoodDB) => () => {
     setFormValues(values)
 
     setTimeout(() => {
