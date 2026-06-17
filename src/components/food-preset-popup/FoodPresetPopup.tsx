@@ -8,6 +8,7 @@ import PopupTitle from '@/components/PopupTitle'
 
 import { foodPresetData, FoodPreset } from '@/constant/foodPresetData'
 
+import { FoodItemGroup } from './FoodItemGroup'
 import { FoodItem } from './FoodItem'
 
 const popupHeight = window.innerHeight
@@ -80,15 +81,32 @@ export const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
       </SearchBarWrapper>
 
       <Content>
-        <CheckList
-          onChange={(val) => {
-            setSelectedValue(val[0])
-          }}
-        >
-          {data.map((food) => (
-            <FoodItem key={food.id} food={food} />
-          ))}
-        </CheckList>
+        {/* <FoodItemGroup title="ใช้งานล่าสุด">
+          <CheckList
+            onChange={(val) => {
+              setSelectedValue(val[0])
+            }}
+          >
+            {recentFoods.length === 0 ? (
+              <DataNotFound>ไม่พบข้อมูล</DataNotFound>
+            ) : (
+              recentFoods.map((food) => <FoodItem key={food.id} food={food} />)
+            )}
+          </CheckList>
+        </FoodItemGroup> */}
+        <FoodItemGroup title="ข้อมูลอาหารและวัตถุดิบ">
+          <CheckList
+            onChange={(val) => {
+              setSelectedValue(val[0])
+            }}
+          >
+            {data.length === 0 ? (
+              <DataNotFound>ไม่พบข้อมูล</DataNotFound>
+            ) : (
+              data.map((food) => <FoodItem key={food.id} food={food} />)
+            )}
+          </CheckList>
+        </FoodItemGroup>
       </Content>
       <BottomArea />
     </Popup>
@@ -119,4 +137,11 @@ const Content = styled.div`
 
 const BottomArea = styled.div`
   height: 48px;
+`
+
+const DataNotFound = styled.div`
+  padding: 16px 12px;
+  color: #cacaca;
+  font-size: 0.8em;
+  text-align: center;
 `

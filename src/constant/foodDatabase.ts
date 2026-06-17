@@ -46,5 +46,5 @@ export const foodDatabase: Food[] = [
   f('เวย์ ISO PRO', '34g', RAW, '112:1|27|0'),
   f('แซนวิชแฮมชีส', '1pack', COOKED, '233:19|10|13'),
   f('แซนวิชไส้กรอกชีส', '1pack', COOKED, '291:18|12|19'),
-  f('ทอดมันปลากราย', '100g', COOKED, '232:8|14|16'),
+  f('กับข้าว Clean with Mom (สุก)', '1 pack', COOKED, '170:6|23|6'),
 ]
