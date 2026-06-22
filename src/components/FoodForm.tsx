@@ -240,7 +240,7 @@ const FoodForm: FC<FoodFormProps> = ({
                     </span>
                   }
                 >
-                  <Slider min={0} max={9.9} step={0.1} />
+                  <Slider min={0} max={5.0} step={0.1} />
                 </Form.Item>
               )
             }}
