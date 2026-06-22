@@ -1,6 +1,15 @@
 import type { FC } from 'react'
 
-import { Popup, List, Switch, Button, Toast, Dialog, Space } from 'antd-mobile'
+import {
+  Popup,
+  List,
+  Switch,
+  Input,
+  Button,
+  Toast,
+  Dialog,
+  Space,
+} from 'antd-mobile'
 import styled from '@emotion/styled'
 
 import useDB from '@/hooks/useDB'
@@ -14,7 +23,13 @@ interface SettingsPopupProps {
 }
 
 const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
-  const { settings, updateSettings, restoreSettings } = useDB()
+  const {
+    targetCaloriesIntake,
+    updateTargetCaloriesIntake,
+    settings,
+    updateSettings,
+    restoreSettings,
+  } = useDB()
 
   const handleOnSwitchChange = (name: string) => (checked: boolean) => {
     updateSettings({
@@ -40,6 +55,14 @@ const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
     <Popup visible={visible} onMaskClick={onClose} bodyStyle={{ height: 340 }}>
       <PopupTitle title="Settings" onClose={onClose} />
       <List>
+        <List.Item prefix="Target Calories Intake">
+          <InputTargetCaloriesIntake
+            placeholder="0"
+            pattern="[0-9]*"
+            defaultValue={targetCaloriesIntake.toString()}
+            onChange={(val) => updateTargetCaloriesIntake(Number(val))}
+          />
+        </List.Item>
         <List.Item
           prefix="Number Keyboard Preview"
           extra={
@@ -96,6 +119,13 @@ const SettingsButtonContainer = styled.div`
   width: calc(100% - 16px);
   margin-top: 24px;
   padding: 8px;
+`
+
+const InputTargetCaloriesIntake = styled(Input)`
+  input {
+    text-align: right;
+    font-size: 20px;
+  }
 `
 
 const GithHubLinkContainer = styled.div`

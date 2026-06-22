@@ -15,10 +15,13 @@ export interface Settings {
 }
 
 const key = {
+  targetCaloriesIntake: 'targetCaloriesIntake',
   foods: 'foods',
   settings: 'settings',
   latestUpdate: 'latestUpdate',
 }
+
+const defaultTargetCaloriesIntake = 2000
 
 export const defaultSettings: Settings = {
   numberKeyboardPreview: true,
@@ -26,17 +29,22 @@ export const defaultSettings: Settings = {
 }
 
 export const dbIsExists = () =>
+  store.get(key.targetCaloriesIntake) != null &&
   store.get(key.foods) != null &&
   store.get(key.settings) != null &&
   store.get(key.latestUpdate) != null
 
 export const createDB = () => {
+  !store.get(key.targetCaloriesIntake) &&
+    store.set(key.targetCaloriesIntake, defaultTargetCaloriesIntake)
   !store.get(key.foods) && store.set(key.foods, [])
   !store.get(key.settings) && store.set(key.settings, defaultSettings)
   !store.get(key.latestUpdate) && store.set(key.latestUpdate, '')
 }
 
 interface DBContextType {
+  targetCaloriesIntake: number
+  updateTargetCaloriesIntake: (kcal: number) => void
   foods: FoodDB[]
   addFood: (food: FoodDB) => void
   updateFood: (newValue: FoodDB) => void
@@ -52,6 +60,9 @@ interface DBContextType {
 const DBContext = createContext<DBContextType>(null!)
 
 export function DBProvider({ children }: { children: ReactNode }) {
+  const [targetCaloriesIntake, setTargetCaloriesIntake] = useState<number>(
+    store.get(key.targetCaloriesIntake) || defaultTargetCaloriesIntake
+  )
   const [foods, setFoods] = useState<FoodDB[]>(store.get(key.foods) || [])
   const [settings, setSettings] = useState<Settings>(
     store.get(key.settings) || {}
@@ -69,7 +80,14 @@ export function DBProvider({ children }: { children: ReactNode }) {
     setLatestUpdate(currentTime)
   }
 
+  const updateTargetCaloriesIntake = (kcal: number) => {
+    setTargetCaloriesIntake(kcal)
+    store.set(key.targetCaloriesIntake, kcal)
+  }
+
   const value = {
+    targetCaloriesIntake,
+    updateTargetCaloriesIntake,
     foods,
     addFood: (food: FoodDB) => {
       const newFoods = foods.concat([food])
