@@ -2,8 +2,15 @@ import numeral from 'numeral'
 
 import type { FoodDB } from '@/hooks/useDB'
 
-export const nutrientValue = (num: number, multiplier: number) =>
-  numeral(num * multiplier).format('0,0')
+export const nutrientValue = (
+  num: number,
+  multiplier: number,
+  useFormat = true
+) => {
+  const total = num * multiplier
+
+  return useFormat ? numeral(total).format('0,0') : total
+}
 
 export const createRenderKey = () => new Date().getTime().toString()
 

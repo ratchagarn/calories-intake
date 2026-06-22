@@ -3,7 +3,6 @@ import type { FC } from 'react'
 import { useState } from 'react'
 import { Toast } from 'antd-mobile'
 import styled from '@emotion/styled'
-import numeral from 'numeral'
 import dayjs from 'dayjs'
 
 import FoodForm from '@/components/FoodForm'
@@ -14,15 +13,19 @@ import useDB from '@/hooks/useDB'
 
 import type { FoodDB } from 'hooks/useDB'
 
-const FORMAT = '0,0'
-
 interface FoodListProps {
   foods: FoodDB[]
   onUpdate?: (values: FoodDB) => void
 }
 
 const FoodList: FC<FoodListProps> = ({ foods }) => {
-  const { updateFood, deleteFood, latestUpdate, settings } = useDB()
+  const {
+    updateFood,
+    deleteFood,
+    latestUpdate,
+    getTotalCaloriesIntake,
+    settings,
+  } = useDB()
   const [foodFormVisible, setFoodFormVisible] = useState<boolean>(false)
   const [formValues, setFormValues] = useState<FoodDB>()
 
@@ -45,9 +48,10 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
     totalPro += pro ? pro * multiplier : 0
     totalFat += fat ? fat * multiplier : 0
 
-    const rowCarb = nutrientValue(carb, multiplier)
-    const rowPro = nutrientValue(pro, multiplier)
-    const rowFat = nutrientValue(fat, multiplier)
+    const rowKcal = nutrientValue(kcal, multiplier, false)
+    const rowCarb = nutrientValue(carb, multiplier, false)
+    const rowPro = nutrientValue(pro, multiplier, false)
+    const rowFat = nutrientValue(fat, multiplier, false)
 
     return (
       <tr key={id}>
@@ -55,11 +59,10 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
           {name}{' '}
           <span className="total-qty">{displayFoodQtyAndUnit(food)}</span>
         </td>
-        <td className="col-kcal">{nutrientValue(kcal, multiplier)}</td>
+        <td className="col-kcal">{rowKcal}</td>
         <td className="col-carb">{rowCarb}</td>
         <td className="col-pro">{rowPro}</td>
         <td className="col-fat">{rowFat}</td>
-        <td className="col-mul">{multiplier}</td>
       </tr>
     )
   })
@@ -74,23 +77,25 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
             <th>CARB</th>
             <th>PRO</th>
             <th>FAT</th>
-            <th>✕</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style={{ color: 'brown' }}>Nutrients</td>
-            <td></td>
+            <td style={{ color: 'brown' }}>Summary</td>
+            <td>
+              <span className="total kcal-intake">
+                {getTotalCaloriesIntake()}
+              </span>
+            </td>
             <td className="col-carb">
-              <span className="total">{numeral(totalCarb).format(FORMAT)}</span>
+              <span className="total">{totalCarb}</span>
             </td>
             <td className="col-pro">
-              <span className="total">{numeral(totalPro).format(FORMAT)}</span>
+              <span className="total">{totalPro}</span>
             </td>
             <td className="col-fat">
-              <span className="total">{numeral(totalFat).format(FORMAT)}</span>
+              <span className="total">{totalFat}</span>
             </td>
-            <td></td>
           </tr>
           <tr>
             <td
@@ -162,8 +167,9 @@ const Table = styled.table`
     padding-bottom: 4px;
     border: 1px solid white;
     background-color: white;
-    font-size: 16px;
-    font-family: system-ui, Arial, Helvetica;
+    font-size: 14px;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
+      Liberation Mono, monospace;
 
     &:first-of-type {
       font-size: 14px;
@@ -172,8 +178,12 @@ const Table = styled.table`
 
     > .total {
       color: steelblue;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: bold;
+
+      &.kcal-intake {
+        color: red;
+      }
     }
 
     > .total-qty {
