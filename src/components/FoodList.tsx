@@ -20,13 +20,7 @@ interface FoodListProps {
 }
 
 const FoodList: FC<FoodListProps> = ({ foods }) => {
-  const {
-    updateFood,
-    deleteFood,
-    latestUpdate,
-    getTotalCaloriesIntake,
-    settings,
-  } = useDB()
+  const { updateFood, deleteFood, latestUpdate, settings } = useDB()
   const [foodFormVisible, setFoodFormVisible] = useState<boolean>(false)
   const [formValues, setFormValues] = useState<FoodDB>()
 
@@ -83,11 +77,7 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
         <tbody>
           <tr>
             <td style={{ color: 'brown' }}>Summary</td>
-            <td>
-              <span className="total kcal-intake">
-                {getTotalCaloriesIntake()}
-              </span>
-            </td>
+            <td></td>
             <td className="col-carb">
               <span className="total">{totalCarb}</span>
             </td>
