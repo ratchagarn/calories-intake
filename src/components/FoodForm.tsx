@@ -5,6 +5,7 @@ import {
   Popup,
   Form,
   Input,
+  Slider,
   Button,
   Dialog,
   Space,
@@ -20,6 +21,7 @@ import { calculateKCAL } from '@/helpers/utils'
 import useNumberKeyboardWithForm from '@/hooks/useNumberKeyboardWithForm'
 
 import { FoodPreset, foodPresetData } from '@/constant/foodPresetData'
+import { monospaceFonts } from '@/constant/monospaceFont'
 
 import type { FoodDB } from '@/hooks/useDB'
 
@@ -197,7 +199,7 @@ const FoodForm: FC<FoodFormProps> = ({
             label="KCAL"
             rules={ruleForNumber}
             extra={
-              <AutoButton
+              <AddOnButton
                 onClick={() => {
                   const { carb, pro, fat } = form.getFieldsValue()
                   const kcal = calculateKCAL({
@@ -208,19 +210,40 @@ const FoodForm: FC<FoodFormProps> = ({
 
                   form.setFieldsValue({ kcal })
                 }}
-              />
+              >
+                Auto
+              </AddOnButton>
             }
           >
             <Input placeholder="0" pattern="[0-9]*" />
           </Form.Item>
 
           <Form.Item
-            name="multiplier"
-            label="Multiplier"
-            rules={ruleForNumber}
-            initialValue={1}
+            noStyle
+            shouldUpdate={(prevValues, curValues) =>
+              prevValues.multiplier !== curValues.multiplier
+            }
           >
-            <Input placeholder="0" />
+            {({ getFieldValue }) => {
+              return (
+                <Form.Item
+                  name="multiplier"
+                  label="Multiplier"
+                  rules={ruleForNumber}
+                  initialValue={1}
+                  getValueFromEvent={(val: number) => {
+                    return Number(val.toFixed(2))
+                  }}
+                  extra={
+                    <span style={{ fontFamily: monospaceFonts }}>
+                      {getFieldValue('multiplier')?.toFixed(2) ?? '1.00'}
+                    </span>
+                  }
+                >
+                  <Slider min={0} max={9.9} step={0.1} />
+                </Form.Item>
+              )
+            }}
           </Form.Item>
         </Form>
       </Popup>
@@ -244,10 +267,12 @@ const FoodForm: FC<FoodFormProps> = ({
 
 export default FoodForm
 
-function AutoButton({
+function AddOnButton({
   onClick,
+  children,
 }: {
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  children: React.ReactNode
 }) {
   return (
     <Button
@@ -259,7 +284,7 @@ function AutoButton({
         onClick(e)
       }}
     >
-      Auto
+      {children}
     </Button>
   )
 }

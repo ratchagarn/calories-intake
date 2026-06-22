@@ -1,4 +1,4 @@
-import { Card } from 'antd-mobile'
+import { Grid, Card } from 'antd-mobile'
 import styled from '@emotion/styled'
 import numeral from 'numeral'
 
@@ -13,33 +13,27 @@ export const SummaryCalories = ({
   targetCaloriesIntake,
   kcal,
 }: SummaryCaloriesProps) => {
-  const kcalRemaining = targetCaloriesIntake - 1500 - kcal
+  const kcalRemaining = targetCaloriesIntake - kcal
 
   return (
-    <Container>
+    <Grid columns={3} gap={16}>
       <StyledCard>
-        <div>Kcal Intake</div>
+        <h5>Intake</h5>
         <span className="number intake">{numeral(kcal).format()}</span>
       </StyledCard>
       <StyledCard>
-        <div>Kcal Remain</div>
+        <h5>Remain</h5>
         <span className="number remain">{numeral(kcalRemaining).format()}</span>
       </StyledCard>
       <StyledCard>
-        <div>Kcal Target</div>
+        <h5>Target</h5>
         <span className="number target">
           {numeral(targetCaloriesIntake).format()}
         </span>
       </StyledCard>
-    </Container>
+    </Grid>
   )
 }
-
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-`
 
 const StyledCard = styled(Card)`
   text-align: center;
@@ -50,7 +44,14 @@ const StyledCard = styled(Card)`
   .adm-card-body {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
+
+    > h5 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
   }
 
   .number {
