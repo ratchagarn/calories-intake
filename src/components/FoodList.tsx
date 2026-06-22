@@ -10,8 +10,9 @@ import FoodForm from '@/components/FoodForm'
 import { nutrientValue, displayFoodQtyAndUnit } from '@/helpers/utils'
 
 import useDB from '@/hooks/useDB'
-
 import type { FoodDB } from 'hooks/useDB'
+
+import { monospaceFonts } from '@/constant/monospaceFont'
 
 interface FoodListProps {
   foods: FoodDB[]
@@ -168,8 +169,7 @@ const Table = styled.table`
     border: 1px solid white;
     background-color: white;
     font-size: 14px;
-    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
-      Liberation Mono, monospace;
+    font-family: ${monospaceFonts};
 
     &:first-of-type {
       font-size: 14px;
