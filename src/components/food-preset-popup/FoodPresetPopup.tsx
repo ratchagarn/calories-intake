@@ -107,8 +107,8 @@ export const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
             )}
           </CheckList>
         </FoodItemGroup>
+        <BottomArea />
       </Content>
-      <BottomArea />
     </Popup>
   )
 }
