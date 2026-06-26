@@ -5,12 +5,12 @@ import {
   Popup,
   Form,
   Input,
-  Slider,
   Button,
   Dialog,
   Space,
   NumberKeyboard,
 } from 'antd-mobile'
+import { AddOutline, MinusOutline } from 'antd-mobile-icons'
 import { v4 as uuidv4 } from 'uuid'
 
 import PopupTitle from '@/components/PopupTitle'
@@ -21,7 +21,6 @@ import { calculateKCAL } from '@/helpers/utils'
 import useNumberKeyboardWithForm from '@/hooks/useNumberKeyboardWithForm'
 
 import { FoodPreset, foodPresetData } from '@/constant/foodPresetData'
-import { monospaceFonts } from '@/constant/monospaceFont'
 
 import type { FoodDB } from '@/hooks/useDB'
 
@@ -219,61 +218,40 @@ const FoodForm: FC<FoodFormProps> = ({
           </Form.Item>
 
           <Form.Item
-            noStyle
-            shouldUpdate={(prevValues, curValues) =>
-              prevValues.multiplier !== curValues.multiplier
+            name="multiplier"
+            label="Multiplier"
+            rules={ruleForNumber}
+            initialValue={1}
+            extra={
+              <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+                <AddOnButton
+                  onClick={() => {
+                    const { multiplier } = form.getFieldsValue()
+                    const nextValue = Number((multiplier || 0) + 0.1)
+                    form.setFieldsValue({
+                      multiplier: Number(nextValue.toFixed(2)),
+                    })
+                  }}
+                >
+                  <AddOutline />
+                </AddOnButton>
+                <AddOnButton
+                  onClick={() => {
+                    const { multiplier } = form.getFieldsValue()
+                    const nextValue = Number((multiplier || 0) - 0.1)
+                    form.setFieldsValue({
+                      multiplier: Number(
+                        (nextValue < 0 ? 0 : nextValue).toFixed(2)
+                      ),
+                    })
+                  }}
+                >
+                  <MinusOutline />
+                </AddOnButton>
+              </div>
             }
           >
-            {({ getFieldValue }) => {
-              const currentMultiplier =
-                (getFieldValue('multiplier') as number | undefined) ?? 0
-              return (
-                <Form.Item
-                  name="multiplier"
-                  label="Multiplier"
-                  rules={ruleForNumber}
-                  initialValue={1}
-                  getValueFromEvent={(val: number) => {
-                    return Number(val.toFixed(2))
-                  }}
-                  extra={
-                    <div
-                      style={{ display: 'flex', gap: 4, alignItems: 'center' }}
-                    >
-                      <span style={{ fontFamily: monospaceFonts }}>
-                        {currentMultiplier.toFixed(2) ?? '1.00'}
-                      </span>
-                      <AddOnButton
-                        disabled={currentMultiplier >= 5}
-                        onClick={() => {
-                          const { multiplier = 0 } = form.getFieldsValue()
-                          const nextValue = multiplier + 0.1
-                          form.setFieldsValue({
-                            multiplier: nextValue > 5 ? 5 : nextValue,
-                          })
-                        }}
-                      >
-                        +
-                      </AddOnButton>
-                      <AddOnButton
-                        disabled={currentMultiplier <= 0}
-                        onClick={() => {
-                          const { multiplier = 0 } = form.getFieldsValue()
-                          const nextValue = multiplier - 0.1
-                          form.setFieldsValue({
-                            multiplier: nextValue < 0 ? 0 : nextValue,
-                          })
-                        }}
-                      >
-                        -
-                      </AddOnButton>
-                    </div>
-                  }
-                >
-                  <Slider min={0} max={5.2} step={0.2} />
-                </Form.Item>
-              )
-            }}
+            <Input placeholder="0" pattern="[0-9]*" />
           </Form.Item>
         </Form>
       </Popup>
