@@ -39,14 +39,14 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
   const foodRows = foods.map((food) => {
     const { id, name, kcal, carb, pro, fat, multiplier } = food
 
-    totalCarb += carb ? carb * multiplier : 0
-    totalPro += pro ? pro * multiplier : 0
-    totalFat += fat ? fat * multiplier : 0
+    totalCarb += Math.ceil(carb ? carb * multiplier : 0)
+    totalPro += Math.ceil(pro ? pro * multiplier : 0)
+    totalFat += Math.ceil(fat ? fat * multiplier : 0)
 
-    const rowKcal = nutrientValue(kcal, multiplier, false)
-    const rowCarb = nutrientValue(carb, multiplier, false)
-    const rowPro = nutrientValue(pro, multiplier, false)
-    const rowFat = nutrientValue(fat, multiplier, false)
+    const rowKcal = nutrientValue(kcal, multiplier)
+    const rowCarb = nutrientValue(carb, multiplier)
+    const rowPro = nutrientValue(pro, multiplier)
+    const rowFat = nutrientValue(fat, multiplier)
 
     return (
       <tr key={id}>
