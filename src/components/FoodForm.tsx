@@ -225,6 +225,8 @@ const FoodForm: FC<FoodFormProps> = ({
             }
           >
             {({ getFieldValue }) => {
+              const currentMultiplier =
+                (getFieldValue('multiplier') as number | undefined) ?? 0
               return (
                 <Form.Item
                   name="multiplier"
@@ -235,12 +237,40 @@ const FoodForm: FC<FoodFormProps> = ({
                     return Number(val.toFixed(2))
                   }}
                   extra={
-                    <span style={{ fontFamily: monospaceFonts }}>
-                      {getFieldValue('multiplier')?.toFixed(2) ?? '1.00'}
-                    </span>
+                    <div
+                      style={{ display: 'flex', gap: 4, alignItems: 'center' }}
+                    >
+                      <span style={{ fontFamily: monospaceFonts }}>
+                        {currentMultiplier.toFixed(2) ?? '1.00'}
+                      </span>
+                      <AddOnButton
+                        disabled={currentMultiplier >= 5}
+                        onClick={() => {
+                          const { multiplier = 0 } = form.getFieldsValue()
+                          const nextValue = multiplier + 0.1
+                          form.setFieldsValue({
+                            multiplier: nextValue > 5 ? 5 : nextValue,
+                          })
+                        }}
+                      >
+                        +
+                      </AddOnButton>
+                      <AddOnButton
+                        disabled={currentMultiplier <= 0}
+                        onClick={() => {
+                          const { multiplier = 0 } = form.getFieldsValue()
+                          const nextValue = multiplier - 0.1
+                          form.setFieldsValue({
+                            multiplier: nextValue < 0 ? 0 : nextValue,
+                          })
+                        }}
+                      >
+                        -
+                      </AddOnButton>
+                    </div>
                   }
                 >
-                  <Slider min={0} max={5.0} step={0.1} />
+                  <Slider min={0} max={5.2} step={0.2} />
                 </Form.Item>
               )
             }}
@@ -269,14 +299,17 @@ export default FoodForm
 
 function AddOnButton({
   onClick,
+  disabled = false,
   children,
 }: {
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  disabled?: boolean
   children: React.ReactNode
 }) {
   return (
     <Button
       size="small"
+      disabled={disabled}
       onClick={(e) => {
         e.stopPropagation()
         e.preventDefault()
