@@ -18,11 +18,12 @@ import { FoodPresetPopup } from '@/components/food-preset-popup'
 
 import { calculateKCAL } from '@/helpers/utils'
 
-import useNumberKeyboardWithForm from '@/hooks/useNumberKeyboardWithForm'
+import { useNumberKeyboardWithForm } from '@/hooks/useNumberKeyboardWithForm'
 
 import { FoodPreset, foodPresetData } from '@/constant/foodPresetData'
 
 import type { FoodDB } from '@/hooks/useDB'
+import styled from '@emotion/styled'
 
 const ruleForNumber = [
   { required: true },
@@ -50,11 +51,13 @@ const FoodForm: FC<FoodFormProps> = ({
   const [foodPresetVisible, setFoodPresetVisible] = useState<boolean>(false)
 
   const [form] = Form.useForm<FoodDB>()
+
   const {
     numberKeyboardVisible,
     onNumberKeyboardInput,
     onNumberKeyboardDelete,
     onNumberKeyboardClose,
+    onOpenNumberKeyboard,
   } = useNumberKeyboardWithForm(form)
   const isUpdateMode = initialValues != null
 
@@ -85,6 +88,8 @@ const FoodForm: FC<FoodFormProps> = ({
 
     setFoodPresetVisible(false)
   }
+
+  const setUnit = (unit: string) => () => form.setFieldsValue({ unit })
 
   const handleOnClose = () => {
     onClose?.()
@@ -173,30 +178,62 @@ const FoodForm: FC<FoodFormProps> = ({
             <Input placeholder="Food name..." />
           </Form.Item>
 
-          <Form.Item name="qty" label="Quantity" rules={ruleForNumber}>
+          <Form.Item
+            name="qty"
+            label="Quantity"
+            rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('qty')}
+          >
             <Input placeholder="0" />
           </Form.Item>
 
-          <Form.Item name="unit" label="Unit" rules={[{ required: true }]}>
-            <Input placeholder="Example: g, ml" />
+          <Form.Item
+            name="unit"
+            label="Unit"
+            rules={[{ required: true }]}
+            extra={
+              <ButtonGroup>
+                <AddOnButton onClick={setUnit('g')}>g</AddOnButton>
+                <AddOnButton onClick={setUnit('ml')}>ml</AddOnButton>
+                <AddOnButton onClick={setUnit('srv')}>srv</AddOnButton>
+              </ButtonGroup>
+            }
+          >
+            <Input placeholder="g, ml" />
           </Form.Item>
 
-          <Form.Item name="carb" label="CARB" rules={ruleForNumber}>
-            <Input placeholder="0" pattern="[0-9]*" />
+          <Form.Item
+            name="carb"
+            label="CARB"
+            rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('carb')}
+          >
+            <Input placeholder="0" readOnly maxLength={4} />
           </Form.Item>
 
-          <Form.Item name="pro" label="PRO" rules={ruleForNumber}>
-            <Input placeholder="0" pattern="[0-9]*" />
+          <Form.Item
+            name="pro"
+            label="PRO"
+            rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('pro')}
+          >
+            <Input placeholder="0" readOnly maxLength={4} />
           </Form.Item>
 
-          <Form.Item name="fat" label="FAT" rules={ruleForNumber}>
-            <Input placeholder="0" pattern="[0-9]*" />
+          <Form.Item
+            name="fat"
+            label="FAT"
+            rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('fat')}
+          >
+            <Input placeholder="0" readOnly maxLength={4} />
           </Form.Item>
 
           <Form.Item
             name="kcal"
             label="KCAL"
             rules={ruleForNumber}
+            onClick={onOpenNumberKeyboard('kcal')}
             extra={
               <AddOnButton
                 onClick={() => {
@@ -214,7 +251,7 @@ const FoodForm: FC<FoodFormProps> = ({
               </AddOnButton>
             }
           >
-            <Input placeholder="0" pattern="[0-9]*" />
+            <Input placeholder="0" readOnly maxLength={4} />
           </Form.Item>
 
           <Form.Item
@@ -222,8 +259,9 @@ const FoodForm: FC<FoodFormProps> = ({
             label="Multiplier"
             rules={ruleForNumber}
             initialValue={1}
+            onClick={onOpenNumberKeyboard('multiplier')}
             extra={
-              <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+              <ButtonGroup>
                 <AddOnButton
                   onClick={() => {
                     const { multiplier } = form.getFieldsValue()
@@ -248,12 +286,13 @@ const FoodForm: FC<FoodFormProps> = ({
                 >
                   <MinusOutline />
                 </AddOnButton>
-              </div>
+              </ButtonGroup>
             }
           >
-            <Input placeholder="0" pattern="[0-9]*" />
+            <Input placeholder="0" readOnly maxLength={5} />
           </Form.Item>
         </Form>
+        <div style={{ height: 300 }} />
       </Popup>
 
       <FoodPresetPopup
@@ -274,6 +313,12 @@ const FoodForm: FC<FoodFormProps> = ({
 }
 
 export default FoodForm
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 4px;
+  align-items: center;
+`
 
 function AddOnButton({
   onClick,
