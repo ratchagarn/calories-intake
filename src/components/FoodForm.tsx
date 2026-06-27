@@ -53,6 +53,7 @@ const FoodForm: FC<FoodFormProps> = ({
   const [form] = Form.useForm<FoodDB>()
 
   const {
+    keyboardTitle,
     numberKeyboardVisible,
     onNumberKeyboardInput,
     onNumberKeyboardDelete,
@@ -175,16 +176,16 @@ const FoodForm: FC<FoodFormProps> = ({
           </Form.Item>
 
           <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-            <Input placeholder="Food name..." />
+            <Input placeholder="Food name..." onFocus={onNumberKeyboardClose} />
           </Form.Item>
 
           <Form.Item
             name="qty"
             label="Quantity"
             rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('qty')}
+            onClick={onOpenNumberKeyboard('qty', 'Quantity')}
           >
-            <Input placeholder="0" />
+            <Input placeholder="0" readOnly />
           </Form.Item>
 
           <Form.Item
@@ -206,7 +207,7 @@ const FoodForm: FC<FoodFormProps> = ({
             name="carb"
             label="CARB"
             rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('carb')}
+            onClick={onOpenNumberKeyboard('carb', 'CARB')}
           >
             <Input placeholder="0" readOnly maxLength={4} />
           </Form.Item>
@@ -215,7 +216,7 @@ const FoodForm: FC<FoodFormProps> = ({
             name="pro"
             label="PRO"
             rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('pro')}
+            onClick={onOpenNumberKeyboard('pro', 'PRO')}
           >
             <Input placeholder="0" readOnly maxLength={4} />
           </Form.Item>
@@ -224,7 +225,7 @@ const FoodForm: FC<FoodFormProps> = ({
             name="fat"
             label="FAT"
             rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('fat')}
+            onClick={onOpenNumberKeyboard('fat', 'FAT')}
           >
             <Input placeholder="0" readOnly maxLength={4} />
           </Form.Item>
@@ -233,7 +234,7 @@ const FoodForm: FC<FoodFormProps> = ({
             name="kcal"
             label="KCAL"
             rules={ruleForNumber}
-            onClick={onOpenNumberKeyboard('kcal')}
+            onClick={onOpenNumberKeyboard('kcal', 'KCAL')}
             extra={
               <AddOnButton
                 onClick={() => {
@@ -259,7 +260,7 @@ const FoodForm: FC<FoodFormProps> = ({
             label="Multiplier"
             rules={ruleForNumber}
             initialValue={1}
-            onClick={onOpenNumberKeyboard('multiplier')}
+            onClick={onOpenNumberKeyboard('multiplier', 'Multiplier')}
             extra={
               <ButtonGroup>
                 <AddOnButton
@@ -303,6 +304,7 @@ const FoodForm: FC<FoodFormProps> = ({
 
       <NumberKeyboard
         visible={numberKeyboardVisible}
+        title={keyboardTitle}
         customKey="."
         onInput={onNumberKeyboardInput}
         onDelete={onNumberKeyboardDelete}
