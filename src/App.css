@@ -8,14 +8,28 @@ body {
   --gap: 12px;
 }
 
+.adm-number-keyboard-header {
+  background-color: #333;
+}
+
 .adm-number-keyboard-key {
   height: 64px;
+  border-color: #454545;
+}
+
+.adm-number-keyboard-key.extra-key,
+.adm-number-keyboard-key.number-key {
+  background-color: #333;
+  color: #999;
+}
+.adm-number-keyboard-key.sign-key {
+  background-color: #666 !important;
+  color: #ccc;
 }
 
 .adm-number-keyboard-popup.adm-popup .adm-popup-body {
   padding-bottom: 16px;
-  background-color: white;
-  box-shadow: 0 0 2px rgb(0 0 0 / 20%);
+  background-color: #333;
 }
 
 .adm-number-keyboard-key.sign-key {
