@@ -76,7 +76,7 @@ export const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
           onClick={() => onSubmit?.(selectedValue)}
           disabled={!selectedValue}
         >
-          OK
+          Select
         </Button>
       </SearchBarWrapper>
 
@@ -107,6 +107,18 @@ export const FoodPresetPopup: FC<FoodPresetPopupProps> = ({
             )}
           </CheckList>
         </FoodItemGroup>
+        {!selectedValue ? null : (
+          <BottomSelectContainer>
+            <Button
+              block
+              color="primary"
+              onClick={() => onSubmit?.(selectedValue)}
+              disabled={!selectedValue}
+            >
+              Select
+            </Button>
+          </BottomSelectContainer>
+        )}
         <BottomArea />
       </Content>
     </Popup>
@@ -135,8 +147,16 @@ const Content = styled.div`
   }
 `
 
+const BottomSelectContainer = styled.div`
+  position: sticky;
+  bottom: 34px;
+  margin-top: 16px;
+  padding: 0 16px;
+  /* transform: translateY(48px); */
+`
+
 const BottomArea = styled.div`
-  height: 48px;
+  height: 34px;
 `
 
 const DataNotFound = styled.div`
