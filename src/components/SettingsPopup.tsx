@@ -1,5 +1,3 @@
-import type { FC } from 'react'
-
 import {
   Popup,
   List,
@@ -17,12 +15,14 @@ import useDB from '@/hooks/useDB'
 import PopupTitle from '@/components/PopupTitle'
 import { foodPresetData, exportFoodsToJSON } from '@/constant/foodPresetData'
 
+const inputId = 'targetCaloriesIntake'
+
 interface SettingsPopupProps {
   visible?: boolean
   onClose?: VoidFunction
 }
 
-const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
+const SettingsPopup = ({ visible, onClose }: SettingsPopupProps) => {
   const {
     targetCaloriesIntake,
     updateTargetCaloriesIntake,
@@ -30,7 +30,6 @@ const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
     updateSettings,
     restoreSettings,
   } = useDB()
-
   const handleOnSwitchChange = (name: string) => (checked: boolean) => {
     updateSettings({
       ...settings,
@@ -55,12 +54,31 @@ const SettingsPopup: FC<SettingsPopupProps> = ({ visible, onClose }) => {
     <Popup visible={visible} onMaskClick={onClose} bodyStyle={{ height: 340 }}>
       <PopupTitle title="Settings" onClose={onClose} />
       <List>
-        <List.Item prefix="Target Calories Intake">
+        <List.Item
+          prefix="Target Calories Intake"
+          extra={
+            <Button
+              size="mini"
+              color="primary"
+              onClick={() => {
+                const input = document.getElementById(inputId) as
+                  | HTMLInputElement
+                  | undefined
+
+                if (input) {
+                  updateTargetCaloriesIntake(Number(input.value))
+                }
+              }}
+            >
+              Save
+            </Button>
+          }
+        >
           <InputTargetCaloriesIntake
+            id={inputId}
             placeholder="0"
             pattern="[0-9]*"
             defaultValue={targetCaloriesIntake.toString()}
-            onChange={(val) => updateTargetCaloriesIntake(Number(val))}
           />
         </List.Item>
         <List.Item
