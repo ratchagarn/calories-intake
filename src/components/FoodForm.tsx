@@ -10,7 +10,6 @@ import {
   Space,
   NumberKeyboard,
 } from 'antd-mobile'
-import { AddOutline, MinusOutline } from 'antd-mobile-icons'
 import { v4 as uuidv4 } from 'uuid'
 
 import PopupTitle from '@/components/PopupTitle'
@@ -264,28 +263,15 @@ const FoodForm: FC<FoodFormProps> = ({
             extra={
               <ButtonGroup>
                 <AddOnButton
-                  onClick={() => {
-                    const { multiplier } = form.getFieldsValue()
-                    const nextValue = Number((multiplier || 0) + 0.1)
-                    form.setFieldsValue({
-                      multiplier: Number(nextValue.toFixed(2)),
-                    })
-                  }}
+                  onClick={() => form.setFieldsValue({ multiplier: 0.5 })}
                 >
-                  <AddOutline />
+                  0.5
                 </AddOnButton>
+
                 <AddOnButton
-                  onClick={() => {
-                    const { multiplier } = form.getFieldsValue()
-                    const nextValue = Number((multiplier || 0) - 0.1)
-                    form.setFieldsValue({
-                      multiplier: Number(
-                        (nextValue < 0 ? 0 : nextValue).toFixed(2)
-                      ),
-                    })
-                  }}
+                  onClick={() => form.setFieldsValue({ multiplier: 2 })}
                 >
-                  <MinusOutline />
+                  2.0
                 </AddOnButton>
               </ButtonGroup>
             }
@@ -309,6 +295,7 @@ const FoodForm: FC<FoodFormProps> = ({
         onInput={onNumberKeyboardInput}
         onDelete={onNumberKeyboardDelete}
         onClose={onNumberKeyboardClose}
+        safeArea
       />
     </>
   )
