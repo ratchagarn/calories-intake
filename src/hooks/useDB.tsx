@@ -48,7 +48,7 @@ interface DBContextType {
   foods: FoodDB[]
   addFood: (food: FoodDB) => void
   updateFood: (newValue: FoodDB) => void
-  deleteFood: (id: string) => void
+  deleteFood: (id: string | string[], newFood?: FoodDB) => void
   clearAllFoods: VoidFunction
   getTotalCaloriesIntake: () => number
   settings: Settings
@@ -110,10 +110,14 @@ export function DBProvider({ children }: { children: ReactNode }) {
       setFoods(updateFoods)
       setNewLatestUpdate()
     },
-    deleteFood: (id: string) => {
-      const updateFoods = foods.filter((food) => {
-        return food.id !== id
-      })
+    deleteFood: (id: string | string[], newFood?: FoodDB) => {
+      const idsToDelete = new Set(Array.isArray(id) ? id : [id])
+
+      const updateFoods = foods.filter((food) => !idsToDelete.has(food.id))
+
+      if (newFood) {
+        updateFoods.push(newFood)
+      }
 
       store.set(key.foods, updateFoods)
       setFoods(updateFoods)

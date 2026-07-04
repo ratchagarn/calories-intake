@@ -1,11 +1,10 @@
-import type { FC } from 'react'
-
 import { useState } from 'react'
-import { Toast } from 'antd-mobile'
+import { NoticeBar, Toast } from 'antd-mobile'
 import styled from '@emotion/styled'
 import dayjs from 'dayjs'
 
 import FoodForm from '@/components/FoodForm'
+import { MergeFoods } from '@/components/MergeFoods'
 
 import { nutrientValue, displayFoodQtyAndUnit } from '@/helpers/utils'
 
@@ -19,10 +18,13 @@ interface FoodListProps {
   onUpdate?: (values: FoodDB) => void
 }
 
-const FoodList: FC<FoodListProps> = ({ foods }) => {
+const FoodList = ({ foods }: FoodListProps) => {
   const { updateFood, deleteFood, latestUpdate, settings } = useDB()
   const [foodFormVisible, setFoodFormVisible] = useState<boolean>(false)
   const [formValues, setFormValues] = useState<FoodDB>()
+
+  const mergeFoodsHandler = MergeFoods.useMergeFoods()
+  const isMergeFoodsMode = mergeFoodsHandler.mode === 'select'
 
   let totalCarb = 0
   let totalPro = 0
@@ -38,6 +40,7 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
 
   const foodRows = foods.map((food) => {
     const { id, name, kcal, carb, pro, fat, multiplier } = food
+    const isSelected = mergeFoodsHandler.selectedFoods.find((f) => f.id === id)
 
     totalCarb += Math.ceil(carb ? carb * multiplier : 0)
     totalPro += Math.ceil(pro ? pro * multiplier : 0)
@@ -49,8 +52,18 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
     const rowFat = nutrientValue(fat, multiplier)
 
     return (
-      <tr key={id}>
-        <td onClick={handleOnRowClick(food)}>
+      <tr
+        key={id}
+        className={isSelected ? 'selected' : undefined}
+        onClick={
+          isMergeFoodsMode
+            ? () => {
+                mergeFoodsHandler.toggleSelectedFoods({ ...food })
+              }
+            : undefined
+        }
+      >
+        <td onClick={isMergeFoodsMode ? undefined : handleOnRowClick(food)}>
           {name}{' '}
           <span className="total-qty">{displayFoodQtyAndUnit(food)}</span>
         </td>
@@ -64,6 +77,13 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
 
   return (
     <>
+      {isMergeFoodsMode ? (
+        <NoticeBar
+          color="info"
+          content="Select food item for merge"
+          style={{ marginBottom: 16 }}
+        />
+      ) : null}
       <Table>
         <thead>
           <tr>
@@ -126,6 +146,19 @@ const FoodList: FC<FoodListProps> = ({ foods }) => {
         }}
         onClose={() => setFoodFormVisible(false)}
       />
+
+      <MergeFoods
+        mode={mergeFoodsHandler.mode}
+        onStartMergeClick={() => mergeFoodsHandler.switchMode('select')}
+        onStopMergeClick={() => mergeFoodsHandler.reset()}
+        onMerged={(name) => {
+          deleteFood(
+            mergeFoodsHandler.selectedFoods.map((f) => f.id),
+            mergeFoodsHandler.createMergeFoods(name)
+          )
+          mergeFoodsHandler.reset()
+        }}
+      />
     </>
   )
 }
@@ -135,6 +168,10 @@ export default FoodList
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
+
+  tr.selected {
+    outline: 1px dashed blue;
+  }
 
   th,
   td {
