@@ -2,17 +2,6 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { foodDatabase } from './foodDatabase'
 
-export interface FoodPreset extends Food {
-  id: string
-  multiplier: number
-}
-
-export const foodPresetData: FoodPreset[] = foodDatabase.map((food) => ({
-  ...food,
-  id: uuidv4(),
-  multiplier: 1,
-}))
-
 export type FoodState = 'RAW' | 'COOKED' | 'UNKNOWN'
 
 export interface Food {
@@ -25,6 +14,17 @@ export interface Food {
   fat: number
   kcal: number
 }
+
+export interface FoodPreset extends Food {
+  id: string
+  multiplier: number
+}
+
+export const foodPresetData: FoodPreset[] = foodDatabase.map((food) => ({
+  ...food,
+  id: uuidv4(),
+  multiplier: 1,
+}))
 
 export function f(
   name: Food['name'],

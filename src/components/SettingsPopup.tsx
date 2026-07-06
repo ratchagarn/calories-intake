@@ -51,7 +51,7 @@ const SettingsPopup = ({ visible, onClose }: SettingsPopupProps) => {
   }
 
   return (
-    <Popup visible={visible} onMaskClick={onClose} bodyStyle={{ height: 340 }}>
+    <Popup visible={visible} onMaskClick={onClose} bodyStyle={{ height: 440 }}>
       <PopupTitle title="Settings" onClose={onClose} />
       <List>
         <List.Item
@@ -125,7 +125,7 @@ const SettingsPopup = ({ visible, onClose }: SettingsPopupProps) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            GITHUB
+            Github
           </a>
         </GithHubLinkContainer>
       </Space>

@@ -1,9 +1,7 @@
 import { useState, useCallback } from 'react'
-import { Input, Dialog, FloatingBubble } from 'antd-mobile'
+import { Input, Popup, Button, FloatingBubble, Toast } from 'antd-mobile'
 import { CheckOutline, CloseOutline, ShrinkOutline } from 'antd-mobile-icons'
 import { v4 as uuidv4 } from 'uuid'
-
-import { nutrientValue } from '@/helpers/utils'
 
 import type { FoodDB } from 'hooks/useDB'
 
@@ -22,46 +20,62 @@ export const MergeFoods = ({
   onStopMergeClick,
   onMerged,
 }: MergeFoodsProps) => {
-  const handleMergeFood = useCallback(() => {
-    Dialog.show({
-      content: (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+  const [popupVisible, setPopupVisible] = useState(false)
+
+  const handleOpenPopup = useCallback(async () => {
+    setPopupVisible(true)
+    const input = await getInput()
+    input.focus()
+  }, [])
+
+  return (
+    <>
+      <Popup
+        visible={popupVisible}
+        bodyStyle={{ height: '90vh' }}
+        // destroyOnClose
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 8,
+            padding: 16,
+          }}
+        >
           <label>Merge Food Name</label>
           <Input
             id={MERGE_FOODS_NAME}
             placeholder="Please fill merge food name..."
           />
-        </div>
-      ),
-      closeOnAction: true,
-      actions: [
-        [
-          {
-            key: 'cancel',
-            text: 'Cancel',
-          },
-          {
-            key: 'merge',
-            text: 'Merge',
-            bold: true,
-            danger: true,
-            onClick: () => {
-              const mergeFoodsName = document.getElementById(
-                MERGE_FOODS_NAME
-              ) as HTMLInputElement | undefined
+          <Button
+            style={{ marginTop: 16 }}
+            color="primary"
+            onClick={async () => {
+              const input = await getInput()
+              input.focus()
 
-              if (mergeFoodsName?.value) {
-                onMerged(mergeFoodsName.value)
+              if (input?.value) {
+                onMerged(input.value)
+                setPopupVisible(false)
+                Toast.show({
+                  content: 'Merge successed!',
+                  duration: 500,
+                })
               }
-            },
-          },
-        ],
-      ],
-    })
-  }, [onMerged])
-
-  return (
-    <>
+            }}
+          >
+            Merge
+          </Button>
+          <Button
+            onClick={() => {
+              setPopupVisible(false)
+            }}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Popup>
       {mode === 'normal' ? (
         <FloatingBubble style={getBubbleStyles()} onClick={onStartMergeClick}>
           <ShrinkOutline fontSize={24} />
@@ -77,9 +91,10 @@ export const MergeFoods = ({
               width: '100%',
               height: 180,
               opacity: 0.6,
+              // backgroundColor: 'red',
             }}
           />
-          <FloatingBubble style={getBubbleStyles()} onClick={handleMergeFood}>
+          <FloatingBubble style={getBubbleStyles()} onClick={handleOpenPopup}>
             <CheckOutline fontSize={24} />
           </FloatingBubble>
           <FloatingBubble
@@ -96,9 +111,17 @@ export const MergeFoods = ({
 
 MergeFoods.useMergeFoods = useMergeFoods
 
+async function getInput(): Promise<HTMLInputElement> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(document.getElementById(MERGE_FOODS_NAME) as HTMLInputElement)
+    })
+  })
+}
+
 function getBubbleStyles(right = 16, invert = false) {
   const baseStyles = {
-    '--initial-position-bottom': '16px',
+    '--initial-position-bottom': '32px',
     '--initial-position-right': `${right}px`,
     '--edge-distance': '16px',
   }
@@ -141,15 +164,15 @@ export function useMergeFoods() {
   const createMergeFoods = (name: string): FoodDB => {
     const totalNutrients = selectedFoods.reduce(
       (acc, current) => {
+        // ดึง multiplier ของอาหารจานปัจจุบันออกมา (กำหนดค่าเริ่มต้นเป็น 1 เผื่อกรณีไม่มีข้อมูล)
+        const m = current.multiplier ?? 1
+
         return {
-          carb: Number(
-            nutrientValue(acc.carb + current.carb, current.multiplier)
-          ),
-          pro: Number(nutrientValue(acc.pro + current.pro, current.multiplier)),
-          fat: Number(nutrientValue(acc.fat + current.fat, current.multiplier)),
-          kcal: Number(
-            nutrientValue(acc.kcal + current.kcal, current.multiplier)
-          ),
+          // คูณ multiplier แล้วปัดเศษขึ้นด้วย Math.ceil ในแต่ละรอบ
+          carb: acc.carb + Math.ceil(current.carb * m),
+          pro: acc.pro + Math.ceil(current.pro * m),
+          fat: acc.fat + Math.ceil(current.fat * m),
+          kcal: acc.kcal + Math.ceil(current.kcal * m),
         }
       },
       { carb: 0, pro: 0, fat: 0, kcal: 0 }
