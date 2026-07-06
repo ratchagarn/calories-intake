@@ -3,6 +3,8 @@ import { Input, Dialog, FloatingBubble } from 'antd-mobile'
 import { CheckOutline, CloseOutline, ShrinkOutline } from 'antd-mobile-icons'
 import { v4 as uuidv4 } from 'uuid'
 
+import { nutrientValue } from '@/helpers/utils'
+
 import type { FoodDB } from 'hooks/useDB'
 
 const MERGE_FOODS_NAME = 'MERGE_FOODS_NAME'
@@ -67,6 +69,16 @@ export const MergeFoods = ({
       ) : null}
       {mode === 'select' ? (
         <>
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: 180,
+              opacity: 0.6,
+            }}
+          />
           <FloatingBubble style={getBubbleStyles()} onClick={handleMergeFood}>
             <CheckOutline fontSize={24} />
           </FloatingBubble>
@@ -130,10 +142,14 @@ export function useMergeFoods() {
     const totalNutrients = selectedFoods.reduce(
       (acc, current) => {
         return {
-          carb: acc.carb + current.carb,
-          pro: acc.pro + current.pro,
-          fat: acc.fat + current.fat,
-          kcal: acc.kcal + current.kcal,
+          carb: Number(
+            nutrientValue(acc.carb + current.carb, current.multiplier)
+          ),
+          pro: Number(nutrientValue(acc.pro + current.pro, current.multiplier)),
+          fat: Number(nutrientValue(acc.fat + current.fat, current.multiplier)),
+          kcal: Number(
+            nutrientValue(acc.kcal + current.kcal, current.multiplier)
+          ),
         }
       },
       { carb: 0, pro: 0, fat: 0, kcal: 0 }

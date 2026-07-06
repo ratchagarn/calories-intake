@@ -170,7 +170,7 @@ const Table = styled.table`
   border-collapse: collapse;
 
   tr.selected {
-    outline: 1px dashed blue;
+    outline: 2px dashed green;
   }
 
   th,

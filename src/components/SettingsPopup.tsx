@@ -67,6 +67,11 @@ const SettingsPopup = ({ visible, onClose }: SettingsPopupProps) => {
 
                 if (input) {
                   updateTargetCaloriesIntake(Number(input.value))
+
+                  Toast.show({
+                    content: 'Saved Success',
+                    duration: 500,
+                  })
                 }
               }}
             >
