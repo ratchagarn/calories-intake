@@ -25,16 +25,14 @@ export const MergeFoods = ({
   const handleOpenPopup = useCallback(async () => {
     setPopupVisible(true)
     const input = await getInput()
-    input.focus()
+    setTimeout(() => {
+      input.focus()
+    }, 500)
   }, [])
 
   return (
     <>
-      <Popup
-        visible={popupVisible}
-        bodyStyle={{ height: '90vh' }}
-        // destroyOnClose
-      >
+      <Popup visible={popupVisible} bodyStyle={{ height: '90vh' }}>
         <div
           style={{
             display: 'flex',

@@ -66,6 +66,7 @@ const FoodList = ({ foods }: FoodListProps) => {
         <td onClick={isMergeFoodsMode ? undefined : handleOnRowClick(food)}>
           {name}{' '}
           <span className="total-qty">{displayFoodQtyAndUnit(food)}</span>
+          {isSelected ? <div className="selected-bar" /> : null}
         </td>
         <td className="col-kcal">{rowKcal}</td>
         <td className="col-carb">{rowCarb}</td>
@@ -109,10 +110,7 @@ const FoodList = ({ foods }: FoodListProps) => {
             </td>
           </tr>
           <tr>
-            <td
-              colSpan={6}
-              style={{ padding: 2, backgroundColor: '#666' }}
-            ></td>
+            <td colSpan={6} style={{ padding: 2, backgroundColor: '#666' }} />
           </tr>
           {foodRows}
         </tbody>
@@ -169,8 +167,16 @@ const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
 
-  tr.selected {
-    outline: 2px dashed green;
+  .selected {
+    .selected-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background-color: orange;
+      transform: translateX(-100%);
+    }
   }
 
   th,
@@ -178,6 +184,7 @@ const Table = styled.table`
     width: 36px;
     padding: 2px;
     text-align: right;
+    position: relative;
 
     &:first-of-type {
       width: auto;
