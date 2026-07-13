@@ -51,7 +51,11 @@ const SettingsPopup = ({ visible, onClose }: SettingsPopupProps) => {
   }
 
   return (
-    <Popup visible={visible} onMaskClick={onClose} bodyStyle={{ height: 440 }}>
+    <Popup
+      visible={visible}
+      onMaskClick={onClose}
+      bodyStyle={{ minHeight: 400, height: '80vh' }}
+    >
       <PopupTitle title="Settings" onClose={onClose} />
       <List>
         <List.Item
