@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useCallback } from 'react'
 import store from 'store'
 import dayjs from 'dayjs'
 import { FoodPreset } from '@/constant/foodPresetData'
@@ -17,6 +17,7 @@ export interface Settings {
 const key = {
   targetCaloriesIntake: 'targetCaloriesIntake',
   foods: 'foods',
+  eatedList: 'eatedList',
   settings: 'settings',
   latestUpdate: 'latestUpdate',
 }
@@ -31,6 +32,7 @@ export const defaultSettings: Settings = {
 export const dbIsExists = () =>
   store.get(key.targetCaloriesIntake) != null &&
   store.get(key.foods) != null &&
+  store.get(key.eatedList) != null &&
   store.get(key.settings) != null &&
   store.get(key.latestUpdate) != null
 
@@ -38,6 +40,7 @@ export const createDB = () => {
   !store.get(key.targetCaloriesIntake) &&
     store.set(key.targetCaloriesIntake, defaultTargetCaloriesIntake)
   !store.get(key.foods) && store.set(key.foods, [])
+  !store.get(key.eatedList) && store.set(key.eatedList, [])
   !store.get(key.settings) && store.set(key.settings, defaultSettings)
   !store.get(key.latestUpdate) && store.set(key.latestUpdate, '')
 }
@@ -49,6 +52,8 @@ interface DBContextType {
   addFood: (food: FoodDB) => void
   updateFood: (newValue: FoodDB) => void
   deleteFood: (id: string | string[], newFood?: FoodDB) => void
+  eatedList: string[]
+  toggleEatedList: (id: string) => void
   clearAllFoods: VoidFunction
   getTotalCaloriesIntake: () => number
   settings: Settings
@@ -64,6 +69,9 @@ export function DBProvider({ children }: { children: ReactNode }) {
     store.get(key.targetCaloriesIntake) || defaultTargetCaloriesIntake
   )
   const [foods, setFoods] = useState<FoodDB[]>(store.get(key.foods) || [])
+  const [eatedList, setEatedList] = useState<string[]>(
+    store.get(key.eatedList) || []
+  )
   const [settings, setSettings] = useState<Settings>(
     store.get(key.settings) || {}
   )
@@ -73,34 +81,35 @@ export function DBProvider({ children }: { children: ReactNode }) {
 
   const getCurrentTime = () => dayjs().format()
 
-  const setNewLatestUpdate = () => {
+  const setNewLatestUpdate = useCallback(() => {
     const currentTime = getCurrentTime()
 
     store.set(key.latestUpdate, currentTime)
     setLatestUpdate(currentTime)
-  }
+  }, [])
 
   const updateTargetCaloriesIntake = (kcal: number) => {
     setTargetCaloriesIntake(kcal)
     store.set(key.targetCaloriesIntake, kcal)
   }
 
-  const value = {
-    targetCaloriesIntake,
-    updateTargetCaloriesIntake,
-    foods,
-    addFood: (food: FoodDB) => {
+  const addFood = useCallback(
+    (food: FoodDB) => {
       const newFoods = foods.concat([food])
 
       store.set(key.foods, newFoods)
       setFoods(newFoods)
       setNewLatestUpdate()
     },
-    updateFood: (newValue: FoodDB) => {
+    [foods, setNewLatestUpdate]
+  )
+
+  const updateFood = useCallback(
+    (newFood: FoodDB) => {
       const updateFoods = foods.map((food) => {
-        return food.id === newValue.id
+        return food.id === newFood.id
           ? {
-              ...newValue,
+              ...newFood,
               updatedAt: getCurrentTime(),
             }
           : food
@@ -110,10 +119,15 @@ export function DBProvider({ children }: { children: ReactNode }) {
       setFoods(updateFoods)
       setNewLatestUpdate()
     },
-    deleteFood: (id: string | string[], newFood?: FoodDB) => {
+    [foods, setNewLatestUpdate]
+  )
+
+  const deleteFood = useCallback(
+    (id: string | string[], newFood?: FoodDB) => {
       const idsToDelete = new Set(Array.isArray(id) ? id : [id])
 
       const updateFoods = foods.filter((food) => !idsToDelete.has(food.id))
+      const updateEatedList = eatedList.filter((i) => !idsToDelete.has(i))
 
       if (newFood) {
         updateFoods.push(newFood)
@@ -121,32 +135,71 @@ export function DBProvider({ children }: { children: ReactNode }) {
 
       store.set(key.foods, updateFoods)
       setFoods(updateFoods)
+
+      store.set(key.eatedList, updateEatedList)
+      setEatedList(updateEatedList)
+
       setNewLatestUpdate()
     },
-    getTotalCaloriesIntake: () => {
-      let result = 0
+    [foods, setNewLatestUpdate, eatedList]
+  )
 
-      foods.forEach((food) => {
-        result += food.kcal * food.multiplier
-      })
+  const toggleEatedList = useCallback(
+    (id: string) => {
+      let updateEatedList = eatedList.slice(0)
 
-      return result
+      if (eatedList.includes(id)) {
+        updateEatedList = eatedList.filter((i) => i !== id)
+      } else {
+        updateEatedList.push(id)
+      }
+
+      store.set(key.eatedList, updateEatedList)
+      setEatedList(updateEatedList)
     },
-    clearAllFoods: () => {
-      store.set(key.foods, [])
-      setFoods([])
-      setLatestUpdate('')
-    },
+    [eatedList]
+  )
 
+  const getTotalCaloriesIntake = useCallback(() => {
+    let result = 0
+
+    foods.forEach((food) => {
+      result += food.kcal * food.multiplier
+    })
+
+    return result
+  }, [foods])
+
+  const clearAllFoods = useCallback(() => {
+    store.set(key.foods, [])
+    setFoods([])
+    setLatestUpdate('')
+  }, [])
+
+  const updateSettings = useCallback((newSettings: Settings) => {
+    store.set(key.settings, newSettings)
+    setSettings(newSettings)
+  }, [])
+
+  const restoreSettings = useCallback(() => {
+    store.set(key.settings, defaultSettings)
+    setSettings(defaultSettings)
+  }, [])
+
+  const value = {
+    targetCaloriesIntake,
+    updateTargetCaloriesIntake,
+    foods,
+    addFood,
+    updateFood,
+    deleteFood,
+    eatedList,
+    toggleEatedList,
+    getTotalCaloriesIntake,
+    clearAllFoods,
     settings,
-    updateSettings: (newSettings: Settings) => {
-      store.set(key.settings, newSettings)
-      setSettings(newSettings)
-    },
-    restoreSettings: () => {
-      store.set(key.settings, defaultSettings)
-      setSettings(defaultSettings)
-    },
+    updateSettings,
+    restoreSettings,
     latestUpdate,
   }
 

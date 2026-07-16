@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { NoticeBar, Toast } from 'antd-mobile'
 import styled from '@emotion/styled'
 import dayjs from 'dayjs'
+import { clsx } from 'clsx'
 
 import FoodForm from '@/components/FoodForm'
 import { MergeFoods } from '@/components/MergeFoods'
@@ -19,7 +20,14 @@ interface FoodListProps {
 }
 
 const FoodList = ({ foods }: FoodListProps) => {
-  const { updateFood, deleteFood, latestUpdate, settings } = useDB()
+  const {
+    updateFood,
+    deleteFood,
+    eatedList,
+    toggleEatedList,
+    latestUpdate,
+    settings,
+  } = useDB()
   const [foodFormVisible, setFoodFormVisible] = useState<boolean>(false)
   const [formValues, setFormValues] = useState<FoodDB>()
 
@@ -30,7 +38,7 @@ const FoodList = ({ foods }: FoodListProps) => {
   let totalPro = 0
   let totalFat = 0
 
-  const handleOnRowClick = (values: FoodDB) => () => {
+  const handleOnFoodNameClick = (values: FoodDB) => () => {
     setFormValues(values)
 
     setTimeout(() => {
@@ -54,7 +62,10 @@ const FoodList = ({ foods }: FoodListProps) => {
     return (
       <tr
         key={id}
-        className={isSelected ? 'selected' : undefined}
+        className={clsx({
+          selected: isSelected,
+          eated: eatedList.includes(id),
+        })}
         onClick={
           isMergeFoodsMode
             ? () => {
@@ -63,15 +74,26 @@ const FoodList = ({ foods }: FoodListProps) => {
             : undefined
         }
       >
-        <td onClick={isMergeFoodsMode ? undefined : handleOnRowClick(food)}>
+        <td
+          className="col-name"
+          onClick={isMergeFoodsMode ? undefined : handleOnFoodNameClick(food)}
+        >
           {name}{' '}
           <span className="total-qty">{displayFoodQtyAndUnit(food)}</span>
           {isSelected ? <div className="selected-bar" /> : null}
         </td>
-        <td className="col-kcal">{rowKcal}</td>
-        <td className="col-carb">{rowCarb}</td>
-        <td className="col-pro">{rowPro}</td>
-        <td className="col-fat">{rowFat}</td>
+        <td className="col-kcal" onClick={() => toggleEatedList(id)}>
+          {rowKcal}
+        </td>
+        <td className="col-carb" onClick={() => toggleEatedList(id)}>
+          {rowCarb}
+        </td>
+        <td className="col-pro" onClick={() => toggleEatedList(id)}>
+          {rowPro}
+        </td>
+        <td className="col-fat" onClick={() => toggleEatedList(id)}>
+          {rowFat}
+        </td>
       </tr>
     )
   })
@@ -176,6 +198,12 @@ const Table = styled.table`
       height: 100%;
       background-color: orange;
       transform: translateX(-100%);
+    }
+  }
+
+  .eated {
+    .col-name {
+      text-decoration: line-through;
     }
   }
 
