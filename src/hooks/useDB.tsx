@@ -93,6 +93,11 @@ export function DBProvider({ children }: { children: ReactNode }) {
     store.set(key.targetCaloriesIntake, kcal)
   }
 
+  const updateEatedList = useCallback((newEatedList: string[]) => {
+    store.set(key.eatedList, newEatedList)
+    setEatedList(newEatedList)
+  }, [])
+
   const addFood = useCallback(
     (food: FoodDB) => {
       const newFoods = foods.concat([food])
@@ -126,38 +131,36 @@ export function DBProvider({ children }: { children: ReactNode }) {
     (id: string | string[], newFood?: FoodDB) => {
       const idsToDelete = new Set(Array.isArray(id) ? id : [id])
 
-      const updateFoods = foods.filter((food) => !idsToDelete.has(food.id))
-      const updateEatedList = eatedList.filter((i) => !idsToDelete.has(i))
+      const newFoods = foods.filter((food) => !idsToDelete.has(food.id))
+      const newEatedList = eatedList.filter((i) => !idsToDelete.has(i))
 
       if (newFood) {
-        updateFoods.push(newFood)
+        newFoods.push(newFood)
       }
 
-      store.set(key.foods, updateFoods)
-      setFoods(updateFoods)
+      store.set(key.foods, newFoods)
+      setFoods(newFoods)
 
-      store.set(key.eatedList, updateEatedList)
-      setEatedList(updateEatedList)
+      updateEatedList(newEatedList)
 
       setNewLatestUpdate()
     },
-    [foods, setNewLatestUpdate, eatedList]
+    [foods, setNewLatestUpdate, eatedList, updateEatedList]
   )
 
   const toggleEatedList = useCallback(
     (id: string) => {
-      let updateEatedList = eatedList.slice(0)
+      let newEatedList = eatedList.slice(0)
 
       if (eatedList.includes(id)) {
-        updateEatedList = eatedList.filter((i) => i !== id)
+        newEatedList = eatedList.filter((i) => i !== id)
       } else {
-        updateEatedList.push(id)
+        newEatedList.push(id)
       }
 
-      store.set(key.eatedList, updateEatedList)
-      setEatedList(updateEatedList)
+      updateEatedList(newEatedList)
     },
-    [eatedList]
+    [eatedList, updateEatedList]
   )
 
   const getTotalCaloriesIntake = useCallback(() => {
@@ -173,6 +176,9 @@ export function DBProvider({ children }: { children: ReactNode }) {
   const clearAllFoods = useCallback(() => {
     store.set(key.foods, [])
     setFoods([])
+
+    store.set(key.eatedList, [])
+    setEatedList([])
     setLatestUpdate('')
   }, [])
 

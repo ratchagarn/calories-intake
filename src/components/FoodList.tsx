@@ -204,6 +204,7 @@ const Table = styled.table`
   .eated {
     .col-name {
       text-decoration: line-through;
+      opacity: 0.6;
     }
   }
 
