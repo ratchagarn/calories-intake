@@ -36,7 +36,7 @@ export const useNumberKeyboardWithForm = (form: FormInstance) => {
         block: 'center', // จัดตำแหน่งแนวตั้ง: 'start', 'center', 'end', 'nearest'
         inline: 'nearest', // จัดตำแหน่งแนวนอน
       })
-      console.log(input)
+
       setNumberKeyboardVisible(true)
       setActiveField(field)
       setKeyboardTitle(title ?? field)
